@@ -18,6 +18,10 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminOffersRouteImport } from './routes/admin.offers'
 import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
+import { Route as ProductsAccessoriesRouteImport } from './routes/products.accessories'
+import { Route as ProductsEvRouteImport } from './routes/products.ev'
+import { Route as ProductsLubesRouteImport } from './routes/products.lubes'
+import { Route as ResourcesVideoGalleryRouteImport } from './routes/resources.video-gallery'
 import { Route as VehiclesIndexRouteImport } from './routes/vehicles.index'
 import { Route as VehiclesSlugRouteImport } from './routes/vehicles.$slug'
 
@@ -66,6 +70,26 @@ const AdminVehiclesRoute = AdminVehiclesRouteImport.update({
   path: '/vehicles',
   getParentRoute: () => AdminRoute,
 } as any)
+const ProductsAccessoriesRoute = ProductsAccessoriesRouteImport.update({
+  id: '/products/accessories',
+  path: '/products/accessories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsEvRoute = ProductsEvRouteImport.update({
+  id: '/products/ev',
+  path: '/products/ev',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsLubesRoute = ProductsLubesRouteImport.update({
+  id: '/products/lubes',
+  path: '/products/lubes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesVideoGalleryRoute = ResourcesVideoGalleryRouteImport.update({
+  id: '/resources/video-gallery',
+  path: '/resources/video-gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VehiclesIndexRoute = VehiclesIndexRouteImport.update({
   id: '/vehicles/',
   path: '/vehicles/',
@@ -86,6 +110,10 @@ export interface FileRoutesByFullPath {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/offers': typeof AdminOffersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/accessories': typeof ProductsAccessoriesRoute
+  '/products/ev': typeof ProductsEvRoute
+  '/products/lubes': typeof ProductsLubesRoute
+  '/resources/video-gallery': typeof ResourcesVideoGalleryRoute
   '/vehicles/$slug': typeof VehiclesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/vehicles/': typeof VehiclesIndexRoute
@@ -98,6 +126,10 @@ export interface FileRoutesByTo {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/offers': typeof AdminOffersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/accessories': typeof ProductsAccessoriesRoute
+  '/products/ev': typeof ProductsEvRoute
+  '/products/lubes': typeof ProductsLubesRoute
+  '/resources/video-gallery': typeof ResourcesVideoGalleryRoute
   '/vehicles/$slug': typeof VehiclesSlugRoute
   '/admin': typeof AdminIndexRoute
   '/vehicles': typeof VehiclesIndexRoute
@@ -112,6 +144,10 @@ export interface FileRoutesById {
   '/admin/enquiries': typeof AdminEnquiriesRoute
   '/admin/offers': typeof AdminOffersRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/accessories': typeof ProductsAccessoriesRoute
+  '/products/ev': typeof ProductsEvRoute
+  '/products/lubes': typeof ProductsLubesRoute
+  '/resources/video-gallery': typeof ResourcesVideoGalleryRoute
   '/vehicles/$slug': typeof VehiclesSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/vehicles/': typeof VehiclesIndexRoute
@@ -127,6 +163,10 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/offers'
     | '/admin/vehicles'
+    | '/products/accessories'
+    | '/products/ev'
+    | '/products/lubes'
+    | '/resources/video-gallery'
     | '/vehicles/$slug'
     | '/admin/'
     | '/vehicles/'
@@ -139,6 +179,10 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/offers'
     | '/admin/vehicles'
+    | '/products/accessories'
+    | '/products/ev'
+    | '/products/lubes'
+    | '/resources/video-gallery'
     | '/vehicles/$slug'
     | '/admin'
     | '/vehicles'
@@ -152,6 +196,10 @@ export interface FileRouteTypes {
     | '/admin/enquiries'
     | '/admin/offers'
     | '/admin/vehicles'
+    | '/products/accessories'
+    | '/products/ev'
+    | '/products/lubes'
+    | '/resources/video-gallery'
     | '/vehicles/$slug'
     | '/admin/'
     | '/vehicles/'
@@ -163,6 +211,10 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   OffersRoute: typeof OffersRoute
+  ProductsAccessoriesRoute: typeof ProductsAccessoriesRoute
+  ProductsEvRoute: typeof ProductsEvRoute
+  ProductsLubesRoute: typeof ProductsLubesRoute
+  ResourcesVideoGalleryRoute: typeof ResourcesVideoGalleryRoute
   VehiclesSlugRoute: typeof VehiclesSlugRoute
   VehiclesIndexRoute: typeof VehiclesIndexRoute
 }
@@ -232,6 +284,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVehiclesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/products/accessories': {
+      id: '/products/accessories'
+      path: '/products/accessories'
+      fullPath: '/products/accessories'
+      preLoaderRoute: typeof ProductsAccessoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/ev': {
+      id: '/products/ev'
+      path: '/products/ev'
+      fullPath: '/products/ev'
+      preLoaderRoute: typeof ProductsEvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products/lubes': {
+      id: '/products/lubes'
+      path: '/products/lubes'
+      fullPath: '/products/lubes'
+      preLoaderRoute: typeof ProductsLubesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/video-gallery': {
+      id: '/resources/video-gallery'
+      path: '/resources/video-gallery'
+      fullPath: '/resources/video-gallery'
+      preLoaderRoute: typeof ResourcesVideoGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vehicles/': {
       id: '/vehicles/'
       path: '/vehicles'
@@ -271,6 +351,10 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   OffersRoute: OffersRoute,
+  ProductsAccessoriesRoute: ProductsAccessoriesRoute,
+  ProductsEvRoute: ProductsEvRoute,
+  ProductsLubesRoute: ProductsLubesRoute,
+  ResourcesVideoGalleryRoute: ResourcesVideoGalleryRoute,
   VehiclesSlugRoute: VehiclesSlugRoute,
   VehiclesIndexRoute: VehiclesIndexRoute,
 }
