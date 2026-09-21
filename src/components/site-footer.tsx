@@ -19,7 +19,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link to="/vehicles" className="opacity-85 hover:text-primary">
-                All Vehicles
+                All Products
               </Link>
             </li>
             <li>
@@ -34,6 +34,21 @@ export function SiteFooter() {
                 className="opacity-85 hover:text-primary"
               >
                 Motorcycles
+              </Link>
+            </li>
+            <li>
+              <Link to="/products/ev" className="opacity-85 hover:text-primary">
+                EV
+              </Link>
+            </li>
+            <li>
+              <Link to="/products/accessories" className="opacity-85 hover:text-primary">
+                Accessories
+              </Link>
+            </li>
+            <li>
+              <Link to="/products/lubes" className="opacity-85 hover:text-primary">
+                Lubes & Chemicals
               </Link>
             </li>
             <li>
@@ -57,6 +72,11 @@ export function SiteFooter() {
             <li>
               <Link to="/contact" className="opacity-85 hover:text-primary">
                 Contact & Enquiry
+              </Link>
+            </li>
+            <li>
+              <Link to="/resources/video-gallery" className="opacity-85 hover:text-primary">
+                Video Gallery
               </Link>
             </li>
             <li>

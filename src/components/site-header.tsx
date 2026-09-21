@@ -1,12 +1,27 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Phone, X } from "lucide-react";
+import { Bike, Droplets, Film, Menu, PackageOpen, Phone, PlugZap, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { SHOWROOM } from "@/lib/showroom";
+
+const PRODUCT_LINKS = [
+  { to: "/vehicles", search: { category: "motorcycle" }, label: "Motorcycles", description: "Commuter, performance and premium models", icon: Bike },
+  { to: "/vehicles", search: { category: "scooter" }, label: "Scooters", description: "Automatic everyday mobility", icon: Bike },
+  { to: "/products/ev", label: "EV", description: "Electric scooters and battery solutions", icon: PlugZap },
+  { to: "/products/accessories", label: "Accessories", description: "Model-wise protection, utility and riding gear", icon: PackageOpen },
+  { to: "/products/lubes", label: "Genuine Lubes & Chemicals", description: "Engine oils and care products", icon: Droplets },
+] as const;
 
 const NAV = [
   { to: "/", label: "Home" },
-  { to: "/vehicles", label: "Vehicles" },
   { to: "/offers", label: "Offers" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
@@ -45,19 +60,53 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              activeOptions={{ exact: item.to === "/" }}
-              activeProps={{ className: "text-primary" }}
-              className="rounded-md px-3 py-2 font-display text-[15px] font-semibold uppercase tracking-wide text-foreground/80 transition-colors hover:text-primary"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <NavigationMenu className="hidden md:flex" aria-label="Main navigation">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link to="/" activeOptions={{ exact: true }} activeProps={{ className: "text-primary" }} className="rounded-md px-3 py-2 font-display text-[15px] font-semibold uppercase text-foreground/80 transition-colors hover:text-primary">Home</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="font-display text-[15px] font-semibold uppercase text-foreground/80">Products</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="grid w-[620px] grid-cols-2 gap-2 p-4">
+                  {PRODUCT_LINKS.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <NavigationMenuLink asChild key={item.label}>
+                        <Link to={item.to} search={"search" in item ? item.search : undefined} className="group flex gap-3 rounded-md border border-transparent p-3 transition-colors hover:border-border hover:bg-secondary">
+                          <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Icon className="size-4" /></span>
+                          <span><span className="block font-display text-sm font-bold uppercase">{item.label}</span><span className="mt-1 block text-xs leading-snug text-muted-foreground">{item.description}</span></span>
+                        </Link>
+                      </NavigationMenuLink>
+                    );
+                  })}
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="font-display text-[15px] font-semibold uppercase text-foreground/80">Resources</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="w-[310px] p-4">
+                  <NavigationMenuLink asChild>
+                    <Link to="/resources/video-gallery" className="flex gap-3 rounded-md p-3 transition-colors hover:bg-secondary">
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Film className="size-4" /></span>
+                      <span><span className="block font-display text-sm font-bold uppercase">Video Gallery</span><span className="mt-1 block text-xs text-muted-foreground">Product films, maintenance and riding tips</span></span>
+                    </Link>
+                  </NavigationMenuLink>
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            {NAV.slice(1).map((item) => (
+              <NavigationMenuItem key={item.to}>
+                <NavigationMenuLink asChild>
+                  <Link to={item.to} activeProps={{ className: "text-primary" }} className="rounded-md px-3 py-2 font-display text-[15px] font-semibold uppercase text-foreground/80 transition-colors hover:text-primary">{item.label}</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </NavigationMenuList>
+        </NavigationMenu>
 
         <div className="hidden md:block">
           <Button asChild>
@@ -67,31 +116,40 @@ export function SiteHeader() {
           </Button>
         </div>
 
-        <button
+        <Button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border md:hidden"
+          variant="outline"
+          size="icon"
+          className="md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        </Button>
       </div>
 
       {open && (
         <nav className="border-t border-border bg-background md:hidden" aria-label="Mobile navigation">
           <div className="container-page flex flex-col py-2">
-            {NAV.map((item) => (
+            <Link to="/" onClick={() => setOpen(false)} activeOptions={{ exact: true }} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3.5 font-display text-lg font-semibold uppercase">Home</Link>
+            <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Products</p>
+            {PRODUCT_LINKS.map((item) => (
               <Link
-                key={item.to}
+                key={item.label}
                 to={item.to}
+                search={"search" in item ? item.search : undefined}
                 onClick={() => setOpen(false)}
-                activeOptions={{ exact: item.to === "/" }}
                 activeProps={{ className: "text-primary" }}
-                className="border-b border-border/60 py-3.5 font-display text-lg font-semibold uppercase tracking-wide last:border-0"
+                className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase"
               >
                 {item.label}
               </Link>
+            ))}
+            <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Resources</p>
+            <Link to="/resources/video-gallery" onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">Video Gallery</Link>
+            {NAV.slice(1).map((item) => (
+              <Link key={item.to} to={item.to} onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3.5 font-display text-lg font-semibold uppercase last:border-0">{item.label}</Link>
             ))}
           </div>
         </nav>
