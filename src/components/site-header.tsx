@@ -73,12 +73,14 @@ export function SiteHeader() {
                 <div className="grid w-[620px] grid-cols-2 gap-2 p-4">
                   {PRODUCT_LINKS.map((item) => {
                     const Icon = item.icon;
+                    const content = <><span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Icon className="size-4" /></span><span><span className="block font-display text-sm font-bold uppercase">{item.label}</span><span className="mt-1 block text-xs leading-snug text-muted-foreground">{item.description}</span></span></>;
                     return (
                       <NavigationMenuLink asChild key={item.label}>
-                        <Link to={item.to} search={"search" in item ? item.search : undefined} className="group flex gap-3 rounded-md border border-transparent p-3 transition-colors hover:border-border hover:bg-secondary">
-                          <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Icon className="size-4" /></span>
-                          <span><span className="block font-display text-sm font-bold uppercase">{item.label}</span><span className="mt-1 block text-xs leading-snug text-muted-foreground">{item.description}</span></span>
-                        </Link>
+                        {"search" in item ? (
+                          <Link to="/vehicles" search={item.search} className="group flex gap-3 rounded-md border border-transparent p-3 transition-colors hover:border-border hover:bg-secondary">{content}</Link>
+                        ) : (
+                          <Link to={item.to} className="group flex gap-3 rounded-md border border-transparent p-3 transition-colors hover:border-border hover:bg-secondary">{content}</Link>
+                        )}
                       </NavigationMenuLink>
                     );
                   })}
@@ -134,17 +136,10 @@ export function SiteHeader() {
           <div className="container-page flex flex-col py-2">
             <Link to="/" onClick={() => setOpen(false)} activeOptions={{ exact: true }} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3.5 font-display text-lg font-semibold uppercase">Home</Link>
             <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Products</p>
-            {PRODUCT_LINKS.map((item) => (
-              <Link
-                key={item.label}
-                to={item.to}
-                search={"search" in item ? item.search : undefined}
-                onClick={() => setOpen(false)}
-                activeProps={{ className: "text-primary" }}
-                className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase"
-              >
-                {item.label}
-              </Link>
+            {PRODUCT_LINKS.map((item) => "search" in item ? (
+              <Link key={item.label} to="/vehicles" search={item.search} onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">{item.label}</Link>
+            ) : (
+              <Link key={item.label} to={item.to} onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">{item.label}</Link>
             ))}
             <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Resources</p>
             <Link to="/resources/video-gallery" onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">Video Gallery</Link>
