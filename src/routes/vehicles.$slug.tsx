@@ -8,8 +8,8 @@ import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { AvailabilityBadge } from "@/components/availability-badge";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   vehicleQuery,
@@ -325,16 +325,16 @@ function EmiCalculator({
   onRoadPrice: number | null;
   options: EmiOption[];
 }) {
-  const [downPayment, setDownPayment] = useState("");
-  const [months, setMonths] = useState<number | null>(options[0]?.months ?? null);
+  const [downPayment, setDownPayment] = useState(0);
+  const [tenureIndex, setTenureIndex] = useState(0);
+  const [interestRate, setInterestRate] = useState(options[0]?.rate ?? 10);
 
-  if (!onRoadPrice || options.length === 0) return null;
+  const selected = options[tenureIndex] ?? options[0];
+  if (!onRoadPrice || !selected) return null;
 
-  const selected = options.find((option) => option.months === months) ?? options[0]!;
-  const down = Number(downPayment) || 0;
-  const tooHigh = down > onRoadPrice;
-  const loanAmount = Math.max(onRoadPrice - down, 0);
-  const emi = tooHigh ? 0 : calculateEmi(loanAmount, selected.rate, selected.months);
+  const loanAmount = Math.max(onRoadPrice - downPayment, 0);
+  const emi = calculateEmi(loanAmount, interestRate, selected.months);
+  const downPaymentStep = Math.max(500, Math.round(onRoadPrice / 100 / 500) * 500);
 
   return (
     <div className="mt-6 rounded-xl border border-border bg-card p-5">
@@ -342,39 +342,34 @@ function EmiCalculator({
         EMI calculator
       </h2>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <div className="space-y-1.5">
-          <Label htmlFor="emi-down">Down payment (₹)</Label>
-          <Input
-            id="emi-down"
-            inputMode="numeric"
-            value={downPayment}
-            placeholder="0"
-            onChange={(event) => setDownPayment(event.target.value.replace(/[^0-9]/g, ""))}
-          />
+      <div className="mt-5 grid gap-6 sm:grid-cols-2">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-4">
+            <Label htmlFor="emi-down">Down payment</Label>
+            <output className="font-display text-lg font-bold text-primary">{formatPrice(downPayment)}</output>
+          </div>
+          <Slider id="emi-down" aria-label="Down payment" min={0} max={onRoadPrice} step={downPaymentStep} value={[downPayment]} onValueChange={(value) => setDownPayment(Math.min(value[0] ?? 0, onRoadPrice))} />
+          <div className="flex justify-between text-[11px] text-muted-foreground"><span>{formatPrice(0)}</span><span>{formatPrice(onRoadPrice)}</span></div>
         </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="emi-tenure">Loan tenure</Label>
-          <select
-            id="emi-tenure"
-            value={selected.months}
-            onChange={(event) => setMonths(Number(event.target.value))}
-            className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
-          >
-            {options.map((option) => (
-              <option key={option.months} value={option.months}>
-                {option.months} months
-              </option>
-            ))}
-          </select>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-4">
+            <Label htmlFor="emi-tenure">Loan tenure</Label>
+            <output className="font-display text-lg font-bold text-primary">{selected.months} months</output>
+          </div>
+          <Slider id="emi-tenure" aria-label="Loan tenure" min={0} max={options.length - 1} step={1} value={[tenureIndex]} onValueChange={(value) => { const nextIndex = value[0] ?? 0; const nextOption = options[nextIndex]; setTenureIndex(nextIndex); if (nextOption) setInterestRate(nextOption.rate); }} />
+          <div className="flex justify-between text-[11px] text-muted-foreground"><span>{options[0]?.months} mo</span><span>{options[options.length - 1]?.months} mo</span></div>
         </div>
       </div>
 
-      {tooHigh && (
-        <p className="mt-3 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-          Down payment cannot be more than the on-road price of {formatPrice(onRoadPrice)}.
-        </p>
-      )}
+      <div className="mt-6 space-y-3">
+        <div className="flex items-center justify-between gap-4">
+          <Label htmlFor="emi-interest">Interest rate</Label>
+          <output className="font-display text-lg font-bold text-primary">{interestRate.toFixed(1)}% p.a.</output>
+        </div>
+        <Slider id="emi-interest" aria-label="Interest rate" min={1} max={24} step={0.1} value={[interestRate]} onValueChange={(value) => setInterestRate(value[0] ?? selected.rate)} />
+        <div className="flex justify-between text-[11px] text-muted-foreground"><span>1%</span><span>24%</span></div>
+        <p className="text-[11px] text-muted-foreground">Defaults to the showroom rate for the selected tenure. Adjust it to compare estimates.</p>
+      </div>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-3">
         <div className="rounded-lg border border-border bg-secondary px-4 py-3">
@@ -382,22 +377,22 @@ function EmiCalculator({
             Loan amount
           </dt>
           <dd className="font-display text-xl font-bold">
-            {tooHigh ? "—" : formatPrice(loanAmount)}
+            {formatPrice(loanAmount)}
           </dd>
         </div>
         <div className="rounded-lg border border-border bg-secondary px-4 py-3">
           <dt className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             Interest rate
           </dt>
-          <dd className="font-display text-xl font-bold">{selected.rate}% p.a.</dd>
-          <p className="text-[11px] text-muted-foreground">Fixed for {selected.months} months</p>
+          <dd className="font-display text-xl font-bold">{interestRate.toFixed(1)}% p.a.</dd>
+          <p className="text-[11px] text-muted-foreground">User-selected estimate</p>
         </div>
         <div className="rounded-lg border border-primary/40 bg-primary/5 px-4 py-3">
           <dt className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             Estimated EMI
           </dt>
           <dd className="font-display text-xl font-bold text-primary">
-            {tooHigh ? "—" : `${formatPrice(Math.round(emi))}/mo`}
+            {`${formatPrice(Math.round(emi))}/mo`}
           </dd>
         </div>
       </dl>
