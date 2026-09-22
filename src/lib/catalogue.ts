@@ -17,6 +17,23 @@ export type Vehicle = {
   is_available: boolean;
   is_featured: boolean;
   sort_order: number;
+  video_url: string | null;
+  info_context: string;
+};
+
+export type Product = {
+  id: string;
+  category: "lubes" | "accessories";
+  name: string;
+  short_description: string;
+  description: string;
+  price: number | null;
+  image_url: string;
+  gallery: string[];
+  specs: Record<string, string>;
+  is_available: boolean;
+  is_featured: boolean;
+  sort_order: number;
 };
 
 export type Offer = {
@@ -92,6 +109,15 @@ const asVehicle = (row: Record<string, unknown>): Vehicle => ({
   ...(row as unknown as Vehicle),
   price_from: row["price_from"] == null ? null : Number(row["price_from"]),
   specs: (row["specs"] ?? {}) as Record<string, string>,
+  video_url: (row["video_url"] as string | null) ?? null,
+  info_context: (row["info_context"] as string | null) ?? "",
+});
+
+const asProduct = (row: Record<string, unknown>): Product => ({
+  ...(row as unknown as Product),
+  price: row["price"] == null ? null : Number(row["price"]),
+  specs: (row["specs"] ?? {}) as Record<string, string>,
+  gallery: (row["gallery"] ?? []) as string[],
 });
 
 const asVariant = (row: Record<string, unknown>): VehicleVariant => ({
@@ -151,6 +177,18 @@ export const vehicleQuery = (slug: string) =>
         .maybeSingle();
       if (error) throw new Error(error.message);
       return data ? asVehicle(data) : null;
+    },
+  });
+
+export const productsQuery = (category?: "lubes" | "accessories") =>
+  queryOptions({
+    queryKey: ["products", category ?? "all"],
+    queryFn: async (): Promise<Product[]> => {
+      let query = supabase.from("products").select("*").order("sort_order", { ascending: true });
+      if (category) query = query.eq("category", category);
+      const { data, error } = await query;
+      if (error) throw new Error(error.message);
+      return (data ?? []).map(asProduct);
     },
   });
 

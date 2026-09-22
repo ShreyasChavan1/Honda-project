@@ -66,6 +66,7 @@ function AdminDashboard() {
 
       <div className="grid gap-4 sm:grid-cols-3">
         <QuickLink to="/admin/vehicles" label="Manage vehicles" description="Add models, update prices and availability." />
+        <QuickLink to="/admin/products" label="Manage products" description="Add or edit Genuine Lubes, Chemicals and Accessories." />
         <QuickLink to="/admin/offers" label="Manage offers" description="Create, edit or deactivate promotions." />
         <QuickLink to="/admin/enquiries" label="View enquiries" description="See what customers have asked for." />
       </div>
@@ -111,7 +112,7 @@ function QuickLink({
   label,
   description,
 }: {
-  to: "/admin/vehicles" | "/admin/offers" | "/admin/enquiries";
+  to: "/admin/vehicles" | "/admin/products" | "/admin/offers" | "/admin/enquiries";
   label: string;
   description: string;
 }) {

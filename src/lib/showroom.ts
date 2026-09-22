@@ -77,7 +77,69 @@ export const CATEGORIES = [
     description: "Commuter and sporty motorcycles for longer, faster rides.",
     image: "/images/demo/sp-125.jpg",
   },
+  {
+    value: "ev",
+    label: "EV",
+    description: "Electric scooters and bikes with clean, quiet everyday mobility.",
+    image: "/images/demo/activa-6g.jpg",
+  },
 ] as const;
+
+/** External links for the Services menu — these open Honda's official site rather than a page on this site. */
+export const VALUE_ADDED_SERVICES = [
+  {
+    label: "Right To Repair",
+    href: "https://www.honda2wheelersindia.com/right-to-repair",
+  },
+  {
+    label: "EV Care",
+    href: "https://www.honda2wheelersindia.com/services/maintenance/ev-care",
+  },
+  {
+    label: "Annual Maintenance Contract",
+    href: "https://www.honda2wheelersindia.com/services/maintenance/annual-maintenance-contract",
+  },
+  {
+    label: "Extended Warranty Plus",
+    href: "https://www.honda2wheelersindia.com/services/maintenance/extended-warranty-plus",
+  },
+] as const;
+
+export const SERVICE_LINKS = [
+  {
+    label: "Honda Recall Campaign",
+    href: "https://www.honda2wheelersindia.com/services/maintenance/recall-campaign",
+  },
+  {
+    label: "Honda Genuine Parts",
+    href: "https://www.honda2wheelersindia.com/services/how-to-idendify-honda-genuine-parts",
+  },
+] as const;
+
+/** Converts a common YouTube "watch"/short URL into an embeddable URL. Other URLs are returned unchanged. */
+export const toEmbedUrl = (url: string) => {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, "");
+    if (host === "youtu.be") {
+      const id = parsed.pathname.slice(1);
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      if (parsed.pathname === "/watch") {
+        const id = parsed.searchParams.get("v");
+        return id ? `https://www.youtube.com/embed/${id}` : url;
+      }
+      if (parsed.pathname.startsWith("/shorts/")) {
+        const id = parsed.pathname.split("/")[2];
+        return id ? `https://www.youtube.com/embed/${id}` : url;
+      }
+    }
+    return url;
+  } catch {
+    return url;
+  }
+};
 
 export const categoryLabel = (value: string) =>
   CATEGORIES.find((c) => c.value === value)?.label ?? value;

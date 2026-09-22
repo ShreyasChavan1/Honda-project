@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link, Outlet, useRouter } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { BadgePercent, Bike, Inbox, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
+import { BadgePercent, Bike, Inbox, LayoutDashboard, LogOut, PackageOpen, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +28,7 @@ export const Route = createFileRoute("/admin")({
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/vehicles", label: "Vehicles", icon: Bike, exact: false },
+  { to: "/admin/products", label: "Products", icon: PackageOpen, exact: false },
   { to: "/admin/offers", label: "Offers", icon: BadgePercent, exact: false },
   { to: "/admin/enquiries", label: "Enquiries", icon: Inbox, exact: false },
 ] as const;

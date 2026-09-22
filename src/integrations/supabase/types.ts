@@ -86,6 +86,57 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          gallery: string[]
+          id: string
+          image_url: string
+          is_available: boolean
+          is_featured: boolean
+          name: string
+          price: number | null
+          short_description: string
+          sort_order: number
+          specs: Json
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string
+          gallery?: string[]
+          id?: string
+          image_url?: string
+          is_available?: boolean
+          is_featured?: boolean
+          name: string
+          price?: number | null
+          short_description?: string
+          sort_order?: number
+          specs?: Json
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          gallery?: string[]
+          id?: string
+          image_url?: string
+          is_available?: boolean
+          is_featured?: boolean
+          name?: string
+          price?: number | null
+          short_description?: string
+          sort_order?: number
+          specs?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -207,6 +258,7 @@ export type Database = {
           gallery: string[]
           id: string
           image_url: string
+          info_context: string
           is_available: boolean
           is_featured: boolean
           name: string
@@ -217,6 +269,7 @@ export type Database = {
           specs: Json
           updated_at: string
           variants: string[]
+          video_url: string | null
         }
         Insert: {
           category?: string
@@ -226,6 +279,7 @@ export type Database = {
           gallery?: string[]
           id?: string
           image_url?: string
+          info_context?: string
           is_available?: boolean
           is_featured?: boolean
           name: string
@@ -236,6 +290,7 @@ export type Database = {
           specs?: Json
           updated_at?: string
           variants?: string[]
+          video_url?: string | null
         }
         Update: {
           category?: string
@@ -245,6 +300,7 @@ export type Database = {
           gallery?: string[]
           id?: string
           image_url?: string
+          info_context?: string
           is_available?: boolean
           is_featured?: boolean
           name?: string
@@ -255,6 +311,7 @@ export type Database = {
           specs?: Json
           updated_at?: string
           variants?: string[]
+          video_url?: string | null
         }
         Relationships: []
       }

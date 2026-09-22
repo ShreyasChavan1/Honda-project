@@ -36,6 +36,8 @@ type Draft = {
   is_available: boolean;
   is_featured: boolean;
   sort_order: string;
+  video_url: string;
+  info_context: string;
 };
 
 const EMPTY: Draft = {
@@ -49,6 +51,8 @@ const EMPTY: Draft = {
   is_available: true,
   is_featured: false,
   sort_order: "0",
+  video_url: "",
+  info_context: "",
 };
 
 const toDraft = (vehicle: Vehicle): Draft => ({
@@ -63,6 +67,8 @@ const toDraft = (vehicle: Vehicle): Draft => ({
   is_available: vehicle.is_available,
   is_featured: vehicle.is_featured,
   sort_order: String(vehicle.sort_order),
+  video_url: vehicle.video_url ?? "",
+  info_context: vehicle.info_context ?? "",
 });
 
 export const parseSpecs = (value: string) => {
@@ -114,6 +120,8 @@ function AdminVehicles() {
         is_available: values.is_available,
         is_featured: values.is_featured,
         sort_order: Number(values.sort_order) || 0,
+        video_url: values.video_url.trim() || null,
+        info_context: values.info_context,
       };
       const query = values.id
         ? supabase.from("vehicles").update(payload).eq("id", values.id)
@@ -347,6 +355,29 @@ function VehicleForm({
             rows={3}
             value={draft.description}
             onChange={(e) => set("description", e.target.value)}
+          />
+        </div>
+        <div className="space-y-1.5 sm:col-span-2">
+          <Label htmlFor="video_url">Video gallery link (YouTube/Vimeo URL)</Label>
+          <Input
+            id="video_url"
+            type="url"
+            placeholder="https://www.youtube.com/watch?v=..."
+            value={draft.video_url}
+            onChange={(e) => set("video_url", e.target.value)}
+          />
+          <p className="text-xs text-muted-foreground">
+            Shown as a video on the model page and as a play icon on its card. Leave blank to hide.
+          </p>
+        </div>
+        <div className="space-y-1.5 sm:col-span-2">
+          <Label htmlFor="info_context">Info / context (shown on card)</Label>
+          <Textarea
+            id="info_context"
+            rows={2}
+            placeholder="e.g. Limited stock, launch offer, or any extra context to highlight on the card"
+            value={draft.info_context}
+            onChange={(e) => set("info_context", e.target.value)}
           />
         </div>
         <div className="space-y-1.5">

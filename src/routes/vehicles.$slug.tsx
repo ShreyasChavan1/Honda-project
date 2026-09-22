@@ -18,7 +18,7 @@ import {
   EMI_DISCLAIMER,
   type EmiOption,
 } from "@/lib/catalogue";
-import { SHOWROOM, categoryLabel, formatPrice, waLink } from "@/lib/showroom";
+import { SHOWROOM, categoryLabel, formatPrice, toEmbedUrl, waLink } from "@/lib/showroom";
 
 export const Route = createFileRoute("/vehicles/$slug")({
   head: ({ params }) => {
@@ -274,6 +274,11 @@ function VehicleDetailPage() {
                   About this model
                 </h2>
                 <p className="mt-4 text-muted-foreground">{vehicle.description}</p>
+                {vehicle.info_context && (
+                  <p className="mt-4 rounded-lg border-l-2 border-primary bg-secondary/60 p-4 text-sm text-muted-foreground">
+                    {vehicle.info_context}
+                  </p>
+                )}
               </div>
               <div>
                 <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
@@ -294,6 +299,23 @@ function VehicleDetailPage() {
                 </dl>
               </div>
             </section>
+
+            {vehicle.video_url && (
+              <section className="mt-14">
+                <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
+                  Video gallery
+                </h2>
+                <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-ink">
+                  <iframe
+                    src={toEmbedUrl(vehicle.video_url)}
+                    title={`${vehicle.name} video`}
+                    className="aspect-video w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              </section>
+            )}
 
             <section id="enquire" className="mt-16 rounded-2xl border border-border bg-secondary p-6 sm:p-10">
               <p className="eyebrow">Enquire about this model</p>

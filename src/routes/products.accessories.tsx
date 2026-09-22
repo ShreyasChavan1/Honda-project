@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import accessoriesImage from "@/assets/accessories.jpg";
-import { ProductCategoryPage } from "@/components/product-category-page";
+import { ProductListingPage } from "@/components/product-listing-page";
 import { SHOWROOM } from "@/lib/showroom";
 
 const TITLE = `Honda Accessories — ${SHOWROOM.name}`;
-const DESCRIPTION = "Explore demo information about model-specific Honda two-wheeler accessories, protection and riding essentials.";
+const DESCRIPTION = "Model-specific Honda two-wheeler accessories, protection and riding essentials, managed by our showroom team.";
 
 export const Route = createFileRoute("/products/accessories")({
   head: () => ({ meta: [
@@ -16,9 +16,15 @@ export const Route = createFileRoute("/products/accessories")({
 });
 
 function AccessoriesPage() {
-  return <ProductCategoryPage eyebrow="Personalise your ride" title="Accessories" description={DESCRIPTION} image={accessoriesImage} imageAlt="A selection of two-wheeler riding and vehicle accessories" features={[
-    { title: "Model-wise fitment", description: "Choose accessories designed around the fit, finish and everyday use of individual Honda models." },
-    { title: "Protection & utility", description: "Explore guards, covers, storage solutions and practical additions for daily riding." },
-    { title: "Riding essentials", description: "Ask our team about helmets, gloves and other essentials for comfort and responsible riding." },
-  ]} note="Demo content for development. Product range, compatibility and prices must be confirmed with the showroom before purchase." />;
-}
+  return (
+    <ProductListingPage
+      category="accessories"
+      eyebrow="Personalise your ride"
+      title="Accessories"
+      description={DESCRIPTION}
+      image={accessoriesImage}
+      imageAlt="A selection of two-wheeler riding and vehicle accessories"
+      note="Product range, compatibility and prices must be confirmed with the showroom before purchase."
+    />
+  );
+}
