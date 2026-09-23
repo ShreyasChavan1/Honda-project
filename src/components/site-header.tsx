@@ -92,11 +92,11 @@ export function SiteHeader() {
               <NavigationMenuContent>
                 <div className="w-[310px] p-4">
                   <NavigationMenuLink asChild>
-                    <Link to="/resources/video-gallery" className="flex gap-3 rounded-md p-3 transition-colors hover:bg-secondary">
-                      <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Film className="size-4" /></span>
-                      <span><span className="block font-display text-sm font-bold uppercase">Video Gallery</span><span className="mt-1 block text-xs text-muted-foreground">Product films, maintenance and riding tips</span></span>
-                    </Link>
-                  </NavigationMenuLink>
+  <a href="https://www.honda2wheelersindia.com/video-gallery" target="_blank" rel="noreferrer" className="flex gap-3 rounded-md p-3 transition-colors hover:bg-secondary">
+    <span className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary"><Film className="size-4" /></span>
+    <span><span className="block font-display text-sm font-bold uppercase">Video Gallery</span><span className="mt-1 block text-xs text-muted-foreground">Product films, maintenance and riding tips</span></span>
+  </a>
+</NavigationMenuLink>
                 </div>
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -186,7 +186,7 @@ export function SiteHeader() {
               <Link key={item.label} to={item.to} onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">{item.label}</Link>
             ))}
             <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Resources</p>
-            <Link to="/resources/video-gallery" onClick={() => setOpen(false)} activeProps={{ className: "text-primary" }} className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">Video Gallery</Link>
+            <a href="https://www.honda2wheelersindia.com/video-gallery" target="_blank" rel="noreferrer" className="border-b border-border/60 py-3 font-display text-base font-semibold uppercase">Video Gallery</a>
             <p className="pt-4 font-display text-xs font-bold uppercase text-muted-foreground">Services</p>
             <p className="pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Value Added Services</p>
             {VALUE_ADDED_SERVICES.map((item) => (
