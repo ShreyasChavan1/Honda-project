@@ -20,8 +20,11 @@ function AdminEnquiries() {
 
   const updateStatus = useMutation({
     mutationFn: async ({ id, status }: { id: string; status: string }) => {
-      const { error } = await supabase.from("enquiries").update({ status }).eq("id", id);
+      const { error, data } = await supabase.from("enquiries").update({ status }).eq("id", id).select("id");
       if (error) throw new Error(error.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was updated — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["enquiries"] }),
   });

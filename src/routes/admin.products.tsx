@@ -89,10 +89,13 @@ function AdminProducts() {
         sort_order: Number(values.sort_order) || 0,
       };
       const query = values.id
-        ? supabase.from("products").update(payload).eq("id", values.id)
-        : supabase.from("products").insert(payload);
-      const { error: saveError } = await query;
+        ? supabase.from("products").update(payload).eq("id", values.id).select("id")
+        : supabase.from("products").insert(payload).select("id");
+      const { error: saveError, data: saveData } = await query;
       if (saveError) throw new Error(saveError.message);
+      if (values.id && (!saveData || saveData.length === 0)) {
+        throw new Error("Nothing was saved — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => {
       setDraft(null);
@@ -104,11 +107,15 @@ function AdminProducts() {
 
   const toggleAvailability = useMutation({
     mutationFn: async (product: Product) => {
-      const { error: e } = await supabase
+      const { error: e, data } = await supabase
         .from("products")
         .update({ is_available: !product.is_available })
-        .eq("id", product.id);
+        .eq("id", product.id)
+        .select("id");
       if (e) throw new Error(e.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was updated — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: invalidate,
   });

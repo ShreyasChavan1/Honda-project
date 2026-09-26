@@ -124,10 +124,13 @@ function AdminVehicles() {
         info_context: values.info_context,
       };
       const query = values.id
-        ? supabase.from("vehicles").update(payload).eq("id", values.id)
-        : supabase.from("vehicles").insert(payload);
-      const { error: saveError } = await query;
+        ? supabase.from("vehicles").update(payload).eq("id", values.id).select("id")
+        : supabase.from("vehicles").insert(payload).select("id");
+      const { error: saveError, data: saveData } = await query;
       if (saveError) throw new Error(saveError.message);
+      if (values.id && (!saveData || saveData.length === 0)) {
+        throw new Error("Nothing was saved — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => {
       setDraft(null);
@@ -139,11 +142,15 @@ function AdminVehicles() {
 
   const toggleAvailability = useMutation({
     mutationFn: async (vehicle: Vehicle) => {
-      const { error: e } = await supabase
+      const { error: e, data } = await supabase
         .from("vehicles")
         .update({ is_available: !vehicle.is_available })
-        .eq("id", vehicle.id);
+        .eq("id", vehicle.id)
+        .select("id");
       if (e) throw new Error(e.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was updated — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: invalidate,
   });
@@ -523,7 +530,7 @@ function VariantCard({
         .map((row) => ({ months: Number(row.months) || 0, rate: Number(row.rate) || 0 }))
         .filter((row) => row.months > 0);
       const exShowroom = price ? Number(price) : null;
-      const { error: e } = await supabase
+      const { error: e, data } = await supabase
         .from("vehicle_variants")
         .update({
           name,
@@ -534,8 +541,12 @@ function VariantCard({
           specs: parseSpecs(specs),
           is_available: available,
         })
-        .eq("id", variant.id);
+        .eq("id", variant.id)
+        .select("id");
       if (e) throw new Error(e.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was saved — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => {
       setError(null);
@@ -730,11 +741,15 @@ function ColourCard({ colour, onChanged }: { colour: VariantColour; onChanged: (
 
   const save = useMutation({
     mutationFn: async (next?: string[]) => {
-      const { error: e } = await supabase
+      const { error: e, data } = await supabase
         .from("variant_colours")
         .update({ name, images: next ?? images })
-        .eq("id", colour.id);
+        .eq("id", colour.id)
+        .select("id");
       if (e) throw new Error(e.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was saved — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: onChanged,
   });

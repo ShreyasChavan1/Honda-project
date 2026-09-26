@@ -66,10 +66,13 @@ function AdminOffers() {
         sort_order: Number(values.sort_order) || 0,
       };
       const query = values.id
-        ? supabase.from("offers").update(payload).eq("id", values.id)
-        : supabase.from("offers").insert(payload);
-      const { error: saveError } = await query;
+        ? supabase.from("offers").update(payload).eq("id", values.id).select("id")
+        : supabase.from("offers").insert(payload).select("id");
+      const { error: saveError, data: saveData } = await query;
       if (saveError) throw new Error(saveError.message);
+      if (values.id && (!saveData || saveData.length === 0)) {
+        throw new Error("Nothing was saved — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => {
       setDraft(null);
@@ -81,11 +84,15 @@ function AdminOffers() {
 
   const toggleActive = useMutation({
     mutationFn: async (offer: Offer) => {
-      const { error: e } = await supabase
+      const { error: e, data } = await supabase
         .from("offers")
         .update({ is_active: !offer.is_active })
-        .eq("id", offer.id);
+        .eq("id", offer.id)
+        .select("id");
       if (e) throw new Error(e.message);
+      if (!data || data.length === 0) {
+        throw new Error("Nothing was updated — you may have lost admin access. Please refresh and sign in again.");
+      }
     },
     onSuccess: () => void invalidate(),
   });
