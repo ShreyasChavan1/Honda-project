@@ -62,19 +62,19 @@ export const CATEGORIES = [
     value: "scooter",
     label: "Scooters",
     description: "Automatic, easy to ride and built for everyday city use.",
-    image: "/images/demo/activa-6g.jpg",
+    image: "/images/demo/honda-activa-6g-05.jpg",
   },
   {
     value: "motorcycle",
     label: "Motorcycles",
     description: "Commuter and sporty motorcycles for everyday riding.",
-    image: "/images/demo/sp-125.jpg",
+    image: "/images/demo/Honda-Shine-100-DX-side.jpg",
   },
   {
     value: "ev",
     label: "EV",
     description: "Electric two-wheelers for clean, quiet everyday mobility.",
-    image: "/images/demo/activa-6g.jpg",
+    image: "/images/demo/sophistication-redefined-640x426.png",
   },
 ] as const;
 

@@ -66,7 +66,7 @@ export function ProductListingPage({
               alt={imageAlt}
               width={1400}
               height={900}
-              className="aspect-[14/9] w-full rounded-xl border border-border object-cover shadow-card"
+              className="aspect-[14/9] w-full rounded-xl border border-border object-contain shadow-card"
             />
           </div>
         </section>
@@ -119,37 +119,50 @@ export function ProductListingPage({
 function ProductCard({ product }: { product: Product }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
-      <div className="aspect-4/3 overflow-hidden bg-secondary">
-        {product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            loading="lazy"
-            width={1200}
-            height={900}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-            Image coming soon
-          </div>
-        )}
-      </div>
-      <div className="flex flex-1 flex-col gap-2 p-5">
-        <h3 className="font-display text-xl font-bold uppercase leading-tight">{product.name}</h3>
+      <Link
+        to="/products/$id"
+        params={{ id: product.id }}
+        className="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      >
+        <div className="aspect-4/3 overflow-hidden bg-secondary">
+          {product.image_url ? (
+            <img
+              src={product.image_url}
+              alt={product.name}
+              loading="lazy"
+              width={1200}
+              height={900}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+              Image coming soon
+            </div>
+          )}
+        </div>
+        <div className="p-5 pb-2">
+          <h3 className="font-display text-xl font-bold uppercase leading-tight group-hover:text-primary">{product.name}</h3>
+        </div>
+      </Link>
+      <div className="flex flex-1 flex-col gap-2 px-5 pb-5">
         <AvailabilityBadge available={product.is_available} className="self-start" />
         <p className="line-clamp-2 text-sm text-muted-foreground">{product.short_description}</p>
         <div className="mt-auto flex items-end justify-between gap-3 pt-2">
           <p className="font-display text-lg font-bold">{formatPrice(product.price)}</p>
-          <Button asChild size="sm" variant="outline">
-            <a
-              href={waLink(`Hello ${SHOWROOM.name}, I would like to know more about ${product.name}.`)}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Enquire
-            </a>
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild size="sm">
+              <Link to="/products/$id" params={{ id: product.id }}>View details</Link>
+            </Button>
+            <Button asChild size="sm" variant="outline">
+              <a
+                href={waLink(`Hello ${SHOWROOM.name}, I would like to know more about ${product.name}.`)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Enquire
+              </a>
+            </Button>
+          </div>
         </div>
       </div>
     </article>

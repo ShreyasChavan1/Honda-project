@@ -19,6 +19,7 @@ import { Route as AdminEnquiriesRouteImport } from './routes/admin.enquiries'
 import { Route as AdminOffersRouteImport } from './routes/admin.offers'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminVehiclesRouteImport } from './routes/admin.vehicles'
+import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as ProductsAccessoriesRouteImport } from './routes/products.accessories'
 import { Route as ProductsEvRouteImport } from './routes/products.ev'
 import { Route as ProductsLubesRouteImport } from './routes/products.lubes'
@@ -76,6 +77,11 @@ const AdminVehiclesRoute = AdminVehiclesRouteImport.update({
   path: '/vehicles',
   getParentRoute: () => AdminRoute,
 } as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/products/$id',
+  path: '/products/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProductsAccessoriesRoute = ProductsAccessoriesRouteImport.update({
   id: '/products/accessories',
   path: '/products/accessories',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/admin/offers': typeof AdminOffersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/$id': typeof ProductsIdRoute
   '/products/accessories': typeof ProductsAccessoriesRoute
   '/products/ev': typeof ProductsEvRoute
   '/products/lubes': typeof ProductsLubesRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/admin/offers': typeof AdminOffersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/$id': typeof ProductsIdRoute
   '/products/accessories': typeof ProductsAccessoriesRoute
   '/products/ev': typeof ProductsEvRoute
   '/products/lubes': typeof ProductsLubesRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/admin/offers': typeof AdminOffersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/vehicles': typeof AdminVehiclesRoute
+  '/products/$id': typeof ProductsIdRoute
   '/products/accessories': typeof ProductsAccessoriesRoute
   '/products/ev': typeof ProductsEvRoute
   '/products/lubes': typeof ProductsLubesRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/admin/offers'
     | '/admin/products'
     | '/admin/vehicles'
+    | '/products/$id'
     | '/products/accessories'
     | '/products/ev'
     | '/products/lubes'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/admin/offers'
     | '/admin/products'
     | '/admin/vehicles'
+    | '/products/$id'
     | '/products/accessories'
     | '/products/ev'
     | '/products/lubes'
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/admin/offers'
     | '/admin/products'
     | '/admin/vehicles'
+    | '/products/$id'
     | '/products/accessories'
     | '/products/ev'
     | '/products/lubes'
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   OffersRoute: typeof OffersRoute
+  ProductsIdRoute: typeof ProductsIdRoute
   ProductsAccessoriesRoute: typeof ProductsAccessoriesRoute
   ProductsEvRoute: typeof ProductsEvRoute
   ProductsLubesRoute: typeof ProductsLubesRoute
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminVehiclesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/products/accessories': {
       id: '/products/accessories'
       path: '/products/accessories'
@@ -372,6 +392,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   OffersRoute: OffersRoute,
+  ProductsIdRoute: ProductsIdRoute,
   ProductsAccessoriesRoute: ProductsAccessoriesRoute,
   ProductsEvRoute: ProductsEvRoute,
   ProductsLubesRoute: ProductsLubesRoute,
