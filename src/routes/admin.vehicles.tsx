@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowDown, ArrowUp, Layers, Pencil, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, FileDown, Layers, Pencil, Plus, Trash2 } from "lucide-react";
 import { AvailabilityBadge } from "@/components/availability-badge";
 import { ImageManager } from "@/components/image-manager";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import {
   type VariantColour,
 } from "@/lib/catalogue";
 import { CATEGORIES, categoryLabel, formatPrice } from "@/lib/showroom";
+// import { uploadVehicleBrochure } from "@/lib/storage";
 
 export const Route = createFileRoute("/admin/vehicles")({
   component: AdminVehicles,
@@ -38,6 +39,7 @@ type Draft = {
   sort_order: string;
   video_url: string;
   info_context: string;
+  brochure_url: string;
 };
 
 const EMPTY: Draft = {
@@ -53,6 +55,7 @@ const EMPTY: Draft = {
   sort_order: "0",
   video_url: "",
   info_context: "",
+  brochure_url: "",
 };
 
 const toDraft = (vehicle: Vehicle): Draft => ({
@@ -69,6 +72,7 @@ const toDraft = (vehicle: Vehicle): Draft => ({
   sort_order: String(vehicle.sort_order),
   video_url: vehicle.video_url ?? "",
   info_context: vehicle.info_context ?? "",
+  brochure_url: vehicle.brochure_url ?? "",
 });
 
 export const parseSpecs = (value: string) => {
@@ -122,6 +126,7 @@ function AdminVehicles() {
         sort_order: Number(values.sort_order) || 0,
         video_url: values.video_url.trim() || null,
         info_context: values.info_context,
+        brochure_url: values.brochure_url.trim() || null,
       };
       const query = values.id
         ? supabase.from("vehicles").update(payload).eq("id", values.id).select("id")
@@ -377,6 +382,79 @@ function VehicleForm({
             Shown as a video on the model page and as a play icon on its card. Leave blank to hide.
           </p>
         </div>
+        <div className="space-y-2">
+  <Label htmlFor="brochure">Vehicle brochure URL</Label>
+
+  <p className="text-xs text-muted-foreground">
+    Enter the direct URL of the PDF brochure. Visitors can download it from the vehicle page.
+  </p>
+
+  <Input
+    id="brochure"
+    type="url"
+    placeholder="https://example.com/brochure.pdf"
+    value={draft.brochure_url}
+    onChange={(e) => set("brochure_url", e.target.value)}
+  />
+
+  {draft.brochure_url && (
+    <div className="flex items-center gap-2">
+      <a
+        href={draft.brochure_url}
+        target="_blank"
+        rel="noreferrer"
+        className="min-w-0 flex-1 truncate text-sm font-medium text-primary hover:underline"
+      >
+        View current brochure
+      </a>
+
+      <Button
+        type="button"
+        size="sm"
+        variant="ghost"
+        onClick={() => set("brochure_url", "")}
+      >
+        Remove
+      </Button>
+    </div>
+  )}
+</div>
+        {/* <div className="space-y-1.5 sm:col-span-2">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <Label htmlFor="brochure">Vehicle brochure</Label>
+              <p className="mt-1 text-xs text-muted-foreground">Upload a PDF brochure for this model. Visitors can download it from the vehicle page.</p>
+            </div>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-secondary">
+              <FileDown className="size-4" /> Upload PDF
+              <input
+                id="brochure"
+                type="file"
+                accept="application/pdf,.pdf"
+                className="hidden"
+                onChange={async (event) => {
+                  const file = event.target.files?.[0];
+                  if (!file) return;
+                  try {
+                    const url = await uploadVehicleBrochure(file, (draft.id ?? (draft.slug || slugify(draft.name))));
+                    set("brochure_url", url);
+                  } catch (e) {
+                    alert(e instanceof Error ? e.message : "Brochure upload failed");
+                  } finally {
+                    event.target.value = "";
+                  }
+                }}
+              />
+            </label>
+          </div>
+          {draft.brochure_url && (
+            <div className="flex items-center gap-3 rounded-lg border border-border bg-secondary/50 p-3">
+              <FileDown className="size-4 text-primary" />
+              <a href={draft.brochure_url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate text-sm font-medium hover:text-primary">View current brochure</a>
+              <Button type="button" size="sm" variant="ghost" onClick={() => set("brochure_url", "")}>Remove</Button>
+            </div>
+          )}
+        </div> */}
         <div className="space-y-1.5 sm:col-span-2">
           <Label htmlFor="info_context">Info / context (shown on card)</Label>
           <Textarea

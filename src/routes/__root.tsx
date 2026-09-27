@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SHOWROOM } from "../lib/showroom";
 
 function NotFoundComponent() {
   return (
@@ -77,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Sai Honda — Honda Two-Wheeler Showroom" },
+      { title: `${SHOWROOM.name} — Honda Two-Wheeler Showroom` },
       {
         name: "description",
         content:
@@ -97,7 +98,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+  rel: "icon",
+  href: "/images/laxmi-motors-logo.png",
+  type: "image/png",
+},,
     ],
   }),
   shellComponent: RootShell,

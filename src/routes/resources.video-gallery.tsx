@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { SHOWROOM } from "@/lib/showroom";
 
 const TITLE = `Honda Video Gallery — ${SHOWROOM.name}`;
-const DESCRIPTION = "Browse demo Honda product films, maintenance guides, riding tips and road-safety videos.";
+const DESCRIPTION = "Browse Honda product films, maintenance guides, riding tips and road-safety videos.";
 const VIDEOS = [
   { title: "Meet the latest Honda range", category: "Product walkthroughs", icon: Sparkles, description: "A closer look at design, comfort, technology and practical features across the line-up." },
   { title: "Simple care between services", category: "Maintenance guides", icon: Wrench, description: "Everyday checks and care tips that help keep your two-wheeler ready for the road." },
@@ -61,7 +61,6 @@ function VideoGalleryPage() {
               );
             })}
           </div>
-          <p className="mt-8 text-sm text-muted-foreground">Demo gallery for development. Showroom videos and thumbnails will replace this reference content.</p>
         </section>
       </main>
       <SiteFooter />

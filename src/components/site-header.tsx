@@ -40,24 +40,18 @@ export function SiteHeader() {
               {SHOWROOM.phoneDisplay}
             </a>
             <span className="opacity-40">|</span>
-            <span className="opacity-80">{SHOWROOM.hours[0].time} (Mon–Sat)</span>
+            <span className="opacity-80">{SHOWROOM.hours[0].time} (Tue–Sun)</span>
           </div>
         </div>
       </div>
 
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-3" aria-label={`${SHOWROOM.name} home`}>
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary font-display text-lg font-bold text-primary-foreground">
-            H
-          </span>
-          <span className="leading-none">
-            <span className="block font-display text-xl font-bold uppercase tracking-wide">
-              {SHOWROOM.name}
-            </span>
-            <span className="block text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-              Two-Wheelers
-            </span>
-          </span>
+          <img
+            src="/images/laxmi-motors-logo.png"
+            alt={SHOWROOM.name}
+            className="h-12 w-auto object-contain"
+          />
         </Link>
 
         <NavigationMenu className="hidden md:flex" aria-label="Main navigation">

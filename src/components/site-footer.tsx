@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { SHOWROOM, waLink } from "@/lib/showroom";
 
 export function SiteFooter() {
@@ -9,7 +9,6 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-2xl font-bold uppercase tracking-wide">{SHOWROOM.name}</p>
           <p className="mt-3 max-w-xs text-sm opacity-75">{SHOWROOM.shortDescription}</p>
-          <p className="mt-4 text-xs uppercase tracking-[0.16em] text-primary">Demo content</p>
         </div>
 
         <div>
@@ -127,9 +126,21 @@ export function SiteFooter() {
               </a>
             </li>
             <li className="flex gap-3">
-              <Mail className="size-4 shrink-0 text-primary" />
-              <a href={`mailto:${SHOWROOM.email}`} className="opacity-85 hover:text-primary">
-                {SHOWROOM.email}
+              <MapPin className="size-4 shrink-0 text-primary" />
+              <a href={SHOWROOM.mapUrl} target="_blank" rel="noreferrer" className="opacity-85 hover:text-primary">
+                Open in Google Maps
+              </a>
+            </li>
+            <li className="flex gap-3">
+              <Instagram className="size-4 shrink-0 text-primary" />
+              <a href={SHOWROOM.instagramUrl} target="_blank" rel="noreferrer" className="opacity-85 hover:text-primary">
+                Instagram
+              </a>
+            </li>
+            <li className="flex gap-3">
+              <Facebook className="size-4 shrink-0 text-primary" />
+              <a href={SHOWROOM.facebookUrl} target="_blank" rel="noreferrer" className="opacity-85 hover:text-primary">
+                Facebook
               </a>
             </li>
           </ul>
@@ -139,9 +150,9 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-2 py-5 text-xs opacity-60 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {SHOWROOM.name}. Independent authorised dealership (demo site).
+            © {new Date().getFullYear()} {SHOWROOM.name}. All rights reserved.
           </p>
-          <p>All vehicles, prices and offers shown are demo data.</p>
+          <p>Honda is a trademark of Honda Motor Co., Ltd.</p>
         </div>
       </div>
     </footer>

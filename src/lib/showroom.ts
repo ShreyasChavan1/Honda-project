@@ -1,65 +1,58 @@
-/**
- * ============================================================
- * DEMO SHOWROOM CONTENT — replace with the real showroom details.
- * Every value below is placeholder content for development.
- * ============================================================
- */
 export const SHOWROOM = {
-  isDemoContent: true,
-  name: "Sai Honda",
-  tagline: "Authorised Honda Two-Wheeler Dealership (DEMO)",
+  isDemoContent: false,
+  name: "Laxmi Motors",
+  tagline: "Authorised Honda Two-Wheeler Showroom",
   shortDescription:
-    "Explore Honda scooters and motorcycles available at our showroom. Check models, variants and availability, and get in touch with our team.",
-  phoneDisplay: "+91 98765 43210",
-  phone: "+919876543210",
-  whatsapp: "919876543210",
-  email: "sales@saihonda-demo.in",
-  addressLines: ["Plot 14, MG Road", "Near City Bus Stand", "Pune, Maharashtra 411001"],
-  mapEmbedQuery: "MG Road Pune Maharashtra",
-  hours: [
-    { days: "Monday – Saturday", time: "9:30 AM – 8:00 PM" },
-    { days: "Sunday", time: "10:00 AM – 6:00 PM" },
-    { days: "Public Holidays", time: "Closed" },
+    "Explore Honda scooters and motorcycles at Laxmi Motors, Lanja. Check models, variants and availability, and contact our team for enquiries.",
+  phoneDisplay: "8830996202",
+  phone: "+918830996202",
+  whatsapp: "919922932430",
+  email: null,
+  addressLines: [
+    "Laxmi Motors, Near Rest House",
+    "Lanja - 416701, Tal. Lanja",
+    "Dist. Ratnagiri, Maharashtra",
   ],
-  established: "2009",
+  mapEmbedQuery: "Laxmi Motors, Near Rest House, Lanja - 416701, Tal. Lanja, Dist. Ratnagiri, Maharashtra",
+  mapUrl: "https://maps.app.goo.gl/oPmcik7NCtCTGQfY6",
+  instagramUrl: "https://www.instagram.com/laxmi.motors.lanja/",
+  facebookUrl: "https://www.facebook.com/profile.php?id=61571979691355",
+  hours: [
+    { days: "Tuesday – Sunday", time: "9:00 AM – 6:00 PM" },
+    { days: "Monday", time: "Closed" },
+  ],
   stats: [
-    { value: "15+", label: "Years serving riders" },
-    { value: "25,000+", label: "Happy customers" },
-    { value: "12", label: "Trained technicians" },
-    { value: "4.7★", label: "Average customer rating" },
+    { value: "4★", label: "Google rating" },
+    { value: "Experienced", label: "Staff" },
   ],
   about: {
     intro:
-      "DEMO CONTENT. We are a family-run authorised Honda two-wheeler dealership serving the city and nearby towns. From your first test ride to every service after it, our team is here to keep you moving.",
-    history:
-      "DEMO CONTENT. Started in 2009 as a single-counter outlet, the showroom has grown into a full sales, service and spares facility with a dedicated delivery bay and an in-house finance desk.",
-    promise:
-      "DEMO CONTENT. Transparent on-road pricing, no forced accessory bundles, and honest advice on which model actually fits your daily riding. That is the only way we like to sell a two-wheeler.",
+      "Laxmi Motors is an authorized Honda two-wheeler showroom located near Rest House, Lanja. We provide complete sales, service, spare parts, insurance and exchange facilities for Honda scooters and motorcycles. With experienced staff serving Lanja and surrounding areas, we are committed to providing customer service and after-sales support.",
   },
   whyChooseUs: [
     {
-      title: "Genuine Honda stock",
-      description: "DEMO: Every vehicle is sourced through authorised channels with full warranty support.",
+      title: "Authorized Honda showroom",
+      description: "Explore Honda scooters and motorcycles at an authorized Honda two-wheeler showroom in Lanja.",
     },
     {
-      title: "Live availability",
-      description: "DEMO: We keep model availability updated so you know before you visit.",
+      title: "Sales support",
+      description: "Get assistance choosing a Honda two-wheeler based on your everyday riding needs.",
     },
     {
-      title: "In-house finance desk",
-      description: "DEMO: Easy EMI and low down payment options with multiple finance partners.",
+      title: "Service support",
+      description: "Sales and service support for Honda two-wheelers at the showroom.",
     },
     {
-      title: "Trained service team",
-      description: "DEMO: Honda-trained technicians and genuine spare parts under one roof.",
+      title: "Spare parts",
+      description: "Spare parts support is available as part of the showroom's facilities.",
     },
     {
-      title: "Free test rides",
-      description: "DEMO: Ride the model you like before you decide. No appointment needed.",
+      title: "Insurance & exchange",
+      description: "Insurance and exchange facilities are available for customers.",
     },
     {
-      title: "Fast documentation",
-      description: "DEMO: Registration, insurance and paperwork handled at the showroom.",
+      title: "Experienced staff",
+      description: "Our experienced staff is available to help with model information, enquiries and after-sales support.",
     },
   ],
 } as const;
@@ -74,18 +67,17 @@ export const CATEGORIES = [
   {
     value: "motorcycle",
     label: "Motorcycles",
-    description: "Commuter and sporty motorcycles for longer, faster rides.",
+    description: "Commuter and sporty motorcycles for everyday riding.",
     image: "/images/demo/sp-125.jpg",
   },
   {
     value: "ev",
     label: "EV",
-    description: "Electric scooters and bikes with clean, quiet everyday mobility.",
+    description: "Electric two-wheelers for clean, quiet everyday mobility.",
     image: "/images/demo/activa-6g.jpg",
   },
 ] as const;
 
-/** External links for the Services menu — these open Honda's official site rather than a page on this site. */
 export const VALUE_ADDED_SERVICES = [
   {
     label: "Right To Repair",
@@ -116,7 +108,6 @@ export const SERVICE_LINKS = [
   },
 ] as const;
 
-/** Converts a common YouTube "watch"/short URL into an embeddable URL. Other URLs are returned unchanged. */
 export const toEmbedUrl = (url: string) => {
   try {
     const parsed = new URL(url);

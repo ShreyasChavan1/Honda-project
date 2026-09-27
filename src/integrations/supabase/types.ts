@@ -259,6 +259,7 @@ export type Database = {
           id: string
           image_url: string
           info_context: string
+          brochure_url: string | null
           is_available: boolean
           is_featured: boolean
           name: string
@@ -280,6 +281,7 @@ export type Database = {
           id?: string
           image_url?: string
           info_context?: string
+          brochure_url?: string | null
           is_available?: boolean
           is_featured?: boolean
           name: string
@@ -301,6 +303,7 @@ export type Database = {
           id?: string
           image_url?: string
           info_context?: string
+          brochure_url?: string | null
           is_available?: boolean
           is_featured?: boolean
           name?: string

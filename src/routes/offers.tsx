@@ -43,8 +43,7 @@ function OffersPage() {
               Current showroom offers
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Demo offers for development. Terms and exact benefits are confirmed at the showroom and
-              may change without notice.
+              Explore current offers and benefits available at the showroom. Terms and exact benefits are confirmed at the showroom.
             </p>
           </div>
         </section>

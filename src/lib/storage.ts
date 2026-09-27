@@ -85,3 +85,24 @@ export async function uploadVehicleImages(files: File[], folder = "vehicles"): P
   for (const file of files) urls.push(await uploadVehicleImage(file, folder));
   return urls;
 }
+
+
+/** Uploads a PDF brochure and returns a long-lived signed URL. */
+// export async function uploadVehicleBrochure(file: File, vehicleKey = "vehicle"): Promise<string> {
+//   if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+//     throw new Error("Please select a PDF brochure.");
+//   }
+//   const safeKey = vehicleKey.replace(/[^a-z0-9_-]+/gi, "-").replace(/^-|-$/g, "") || "vehicle";
+//   const path = `brochures/${safeKey}/${crypto.randomUUID()}.pdf`;
+//   const { error } = await supabase.storage.from(VEHICLE_BUCKET).upload(path, file, {
+//     cacheControl: "31536000",
+//     contentType: "application/pdf",
+//     upsert: false,
+//   });
+//   if (error) throw new Error(error.message);
+//   const { data, error: signError } = await supabase.storage
+//     .from(VEHICLE_BUCKET)
+//     .createSignedUrl(path, SIGNED_URL_TTL);
+//   if (signError || !data) throw new Error(signError?.message ?? "Could not create brochure URL");
+//   return data.signedUrl;
+// }

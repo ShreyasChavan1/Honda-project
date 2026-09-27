@@ -219,10 +219,9 @@ function HomePage() {
           <div>
             <p className="eyebrow">About the showroom</p>
             <h2 className="mt-3 font-display text-4xl font-bold uppercase leading-tight tracking-tight">
-              {SHOWROOM.name}, serving riders since {SHOWROOM.established}
+              {SHOWROOM.name}, your Honda two-wheeler showroom in Lanja
             </h2>
             <p className="mt-4 text-muted-foreground">{SHOWROOM.about.intro}</p>
-            <p className="mt-3 text-muted-foreground">{SHOWROOM.about.promise}</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild>
                 <Link to="/about">

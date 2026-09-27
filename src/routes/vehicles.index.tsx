@@ -54,8 +54,7 @@ function VehiclesPage() {
               Honda vehicles at our showroom
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Demo catalogue for development. Availability shown here is maintained manually by our
-              showroom team — call us to confirm before you visit.
+              Explore Honda scooters, motorcycles and EVs at Laxmi Motors. Availability is maintained manually by our showroom team, so please call us to confirm before you visit.
             </p>
           </div>
         </section>

@@ -102,7 +102,7 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
             id="phone"
             value={fields.phone}
             onChange={(e) => set("phone")(e.target.value)}
-            placeholder="+91 98765 43210"
+            placeholder="Your mobile number"
             inputMode="tel"
             autoComplete="tel"
             className="h-12"

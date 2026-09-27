@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileContactBar } from "@/components/mobile-contact-bar";
@@ -7,7 +7,7 @@ import { EnquiryForm } from "@/components/enquiry-form";
 import { SHOWROOM, waLink } from "@/lib/showroom";
 
 const TITLE = `Contact ${SHOWROOM.name} — Phone, WhatsApp & Enquiry Form`;
-const DESCRIPTION = `Contact our Honda showroom by phone, WhatsApp or email, check business hours and location, or send an enquiry about any model.`;
+const DESCRIPTION = `Contact our Honda showroom by phone or WhatsApp, check business hours and location, or send an enquiry about any model.`;
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -36,8 +36,7 @@ function ContactPage() {
               Talk to our showroom team
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Call, message or send an enquiry — we reply during showroom hours. Contact details below
-              are demo data.
+              Call, message or send an enquiry during showroom hours.
             </p>
           </div>
         </section>
@@ -56,12 +55,6 @@ function ContactPage() {
               value="Chat with us instantly"
               href={waLink(`Hello ${SHOWROOM.name}, I have an enquiry.`)}
               external
-            />
-            <ContactTile
-              icon={<Mail className="size-5" />}
-              label="Email"
-              value={SHOWROOM.email}
-              href={`mailto:${SHOWROOM.email}`}
             />
             <div className="rounded-xl border border-border bg-card p-5">
               <div className="flex items-center gap-3">

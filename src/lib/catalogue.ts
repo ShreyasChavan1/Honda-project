@@ -19,6 +19,7 @@ export type Vehicle = {
   sort_order: number;
   video_url: string | null;
   info_context: string;
+  brochure_url: string | null;
 };
 
 export type Product = {
@@ -111,6 +112,7 @@ const asVehicle = (row: Record<string, unknown>): Vehicle => ({
   specs: (row["specs"] ?? {}) as Record<string, string>,
   video_url: (row["video_url"] as string | null) ?? null,
   info_context: (row["info_context"] as string | null) ?? "",
+  brochure_url: (row["brochure_url"] as string | null) ?? null,
 });
 
 const asProduct = (row: Record<string, unknown>): Product => ({

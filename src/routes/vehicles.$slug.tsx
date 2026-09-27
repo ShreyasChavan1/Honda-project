@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MessageCircle, Phone } from "lucide-react";
+import { ArrowLeft, FileDown, MessageCircle, Phone, Volume2, VolumeX } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileContactBar } from "@/components/mobile-contact-bar";
@@ -18,7 +18,7 @@ import {
   EMI_DISCLAIMER,
   type EmiOption,
 } from "@/lib/catalogue";
-import { SHOWROOM, categoryLabel, formatPrice, toEmbedUrl, waLink } from "@/lib/showroom";
+import { SHOWROOM, categoryLabel, formatPrice, waLink } from "@/lib/showroom";
 
 export const Route = createFileRoute("/vehicles/$slug")({
   head: ({ params }) => {
@@ -49,6 +49,8 @@ function VehicleDetailPage() {
   const [activeImage, setActiveImage] = useState<string | null>(null);
   const [variantId, setVariantId] = useState<string | null>(null);
   const [colourId, setColourId] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
 
   const variantList = variants ?? [];
   const variant = variantList.find((item) => item.id === variantId) ?? variantList[0] ?? null;
@@ -113,7 +115,38 @@ function VehicleDetailPage() {
 
         {vehicle && (
           <>
-            <div className="mt-6 grid gap-10 lg:grid-cols-2">
+            {vehicle.video_url && (
+              <section className="mt-6 overflow-hidden rounded-2xl border border-border bg-ink shadow-card">
+                <div className="relative aspect-video w-full overflow-hidden lg:aspect-[21/9]">
+                  <video
+                    ref={videoRef}
+                    src={vehicle.video_url}
+                    title={`${vehicle.name} video`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!videoRef.current) return;
+                      videoRef.current.muted = !videoRef.current.muted;
+                      setIsMuted(videoRef.current.muted);
+                    }}
+                    aria-label={isMuted ? "Unmute video" : "Mute video"}
+                    className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition hover:bg-black/80"
+                  >
+                    {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                  </button>
+                </div>
+              </section>
+            )}
+
+            <div className="mt-8 grid gap-10 lg:grid-cols-2">
               <div>
                 <div className="overflow-hidden rounded-2xl border border-border bg-secondary">
                   <img
@@ -241,7 +274,7 @@ function VehicleDetailPage() {
                   />
                 )}
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                   <Button asChild size="lg">
                     <a href={`tel:${SHOWROOM.phone}`}>
                       <Phone /> Call
@@ -263,6 +296,13 @@ function VehicleDetailPage() {
                   <Button asChild size="lg" variant="outline">
                     <a href="#enquire">Enquire</a>
                   </Button>
+                  {vehicle.brochure_url && (
+                    <Button asChild size="lg" variant="outline">
+                      <a href={vehicle.brochure_url} target="_blank" rel="noreferrer" download>
+                        <FileDown /> Brochure
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
 
@@ -299,23 +339,6 @@ function VehicleDetailPage() {
                 </dl>
               </div>
             </section>
-
-            {vehicle.video_url && (
-              <section className="mt-14">
-                <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
-                  Video gallery
-                </h2>
-                <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-ink">
-                  <iframe
-                    src={toEmbedUrl(vehicle.video_url)}
-                    title={`${vehicle.name} video`}
-                    className="aspect-video w-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              </section>
-            )}
 
             <section id="enquire" className="mt-16 rounded-2xl border border-border bg-secondary p-6 sm:p-10">
               <p className="eyebrow">Enquire about this model</p>

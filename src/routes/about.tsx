@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { SHOWROOM } from "@/lib/showroom";
 
 const TITLE = `About ${SHOWROOM.name} — Honda Two-Wheeler Dealership`;
-const DESCRIPTION = `Learn about ${SHOWROOM.name}, an authorised Honda two-wheeler dealership serving riders since ${SHOWROOM.established} with sales, service and finance under one roof.`;
+const DESCRIPTION = `Learn about ${SHOWROOM.name}, an authorized Honda two-wheeler showroom near Rest House, Lanja.`;
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -30,14 +30,22 @@ function AboutPage() {
 
       <main>
         <section className="border-b border-border bg-secondary py-12">
-          <div className="container-page">
-            <p className="eyebrow">About our showroom</p>
-            <h1 className="mt-2 max-w-3xl font-display text-4xl font-bold uppercase leading-tight tracking-tight sm:text-5xl">
-              A Honda dealership built on repeat customers
-            </h1>
-            <p className="mt-3 max-w-2xl text-muted-foreground">{SHOWROOM.about.intro}</p>
-          </div>
-        </section>
+  <div className="container-page w-full">
+    <p className="eyebrow">About our showroom</p>
+
+    <h1 className="mt-2 font-display text-4xl font-bold uppercase leading-tight tracking-tight sm:text-5xl">
+      Your Honda two-wheeler showroom in Lanja
+    </h1>
+
+    <p className="mt-3 whitespace-pre-line text-muted-foreground">
+  {`Laxmi Motors is an authorized Honda two-wheeler showroom located near Rest House in Lanja, Ratnagiri, serving customers from Lanja and surrounding areas. We offer a wide range of Honda motorcycles and scooters, helping customers choose a vehicle that suits their daily commute, family needs and lifestyle.
+
+Along with vehicle sales, we provide support for service, genuine spare parts, insurance and exchange facilities, making it convenient for customers to manage their two-wheeler needs in one place. Our experienced staff focuses on providing helpful guidance, clear information and a smooth buying experience from selecting a model to taking it home.
+
+At Laxmi Motors, we aim to build lasting customer relationships through dependable service and support before and after every purchase.`}
+</p>
+  </div>
+</section>
 
         <section className="container-page grid items-start gap-10 py-14 lg:grid-cols-2">
           <img
@@ -50,26 +58,20 @@ function AboutPage() {
           />
           <div className="space-y-8">
             <div>
-              <h2 className="font-display text-3xl font-bold uppercase tracking-wide">Our story</h2>
-              <p className="mt-3 text-muted-foreground">{SHOWROOM.about.history}</p>
+              <h2 className="font-display text-3xl font-bold uppercase tracking-wide">About Laxmi Motors</h2>
+              <p className="mt-3 text-muted-foreground">From choosing your Honda to keeping it running smoothly, Laxmi Motors provides support throughout your ownership journey. Our showroom brings together vehicle sales, servicing, genuine spare parts, insurance and exchange facilities, giving customers convenient access to essential two-wheeler services in one place.</p>
             </div>
             <div>
-              <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
-                Our promise to you
-              </h2>
-              <p className="mt-3 text-muted-foreground">{SHOWROOM.about.promise}</p>
+              <h2 className="font-display text-3xl font-bold uppercase tracking-wide">Our facilities</h2>
+              <p className="mt-3 text-muted-foreground">Sales, service, spare parts, insurance and exchange facilities are available for Honda two-wheelers.</p>
             </div>
             <dl className="grid grid-cols-2 gap-6 border-t border-border pt-6">
               {SHOWROOM.stats.map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
-                    <span className="block font-display text-3xl font-bold text-primary">
-                      {stat.value}
-                    </span>
-                    <span className="mt-1 block text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                      {stat.label}
-                    </span>
+                    <span className="block font-display text-3xl font-bold text-primary">{stat.value}</span>
+                    <span className="mt-1 block text-xs uppercase tracking-[0.12em] text-muted-foreground">{stat.label}</span>
                   </dd>
                 </div>
               ))}
