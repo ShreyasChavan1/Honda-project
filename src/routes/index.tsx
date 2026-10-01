@@ -209,7 +209,7 @@ function HomePage() {
         {/* ABOUT */}
         <section className="container-page grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-2">
           <img
-            src="/images/demo/showroom-interior.jpg"
+            src="/images/reference/honda-factory.png"
             alt={`Inside the ${SHOWROOM.name} showroom`}
             loading="lazy"
             width={1600}

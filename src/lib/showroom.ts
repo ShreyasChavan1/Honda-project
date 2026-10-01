@@ -74,7 +74,7 @@ export const CATEGORIES = [
     value: "ev",
     label: "EV",
     description: "Electric two-wheelers for clean, quiet everyday mobility.",
-    image: "/images/demo/sophistication-redefined-640x426.png",
+    image: "/images/reference/honda-ev-scooters.png",
   },
 ] as const;
 

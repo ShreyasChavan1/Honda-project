@@ -49,7 +49,7 @@ At Laxmi Motors, we aim to build lasting customer relationships through dependab
 
         <section className="container-page grid items-start gap-10 py-14 lg:grid-cols-2">
           <img
-            src="/images/demo/showroom-interior.jpg"
+            src="/images/reference/honda-factory.png"
             alt={`Display floor at ${SHOWROOM.name}`}
             loading="lazy"
             width={1600}
