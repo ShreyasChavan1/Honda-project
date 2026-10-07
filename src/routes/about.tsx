@@ -4,7 +4,15 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { Button } from "@/components/ui/button";
+import { HeroSlider } from "@/components/hero-slider";
 import { SHOWROOM } from "@/lib/showroom";
+
+const SLIDES = [
+  { src: "/images/showroom/slide-1.jpg", alt: "Scooters and motorcycles on display at Laxmi Motors" },
+  { src: "/images/showroom/slide-2.jpg", alt: "Honda motorcycle display floor at Laxmi Motors" },
+  { src: "/images/showroom/slide-3.jpg", alt: "Workshop office and reception at Laxmi Motors" },
+  { src: "/images/showroom/slide-4.jpg", alt: "Laxmi Motors showroom" },
+];
 
 const TITLE = `About ${SHOWROOM.name} — Honda Two-Wheeler Dealership`;
 const DESCRIPTION = `Learn about ${SHOWROOM.name}, an authorized Honda two-wheeler showroom near Rest House, Lanja.`;
@@ -30,7 +38,8 @@ function AboutPage() {
 
       <main>
         <section className="border-b border-border bg-secondary py-12">
-  <div className="container-page w-full">
+  <div className="container-page grid w-full items-center gap-10 lg:grid-cols-2">
+    <div>
     <p className="eyebrow">About our showroom</p>
 
     <h1 className="mt-2 font-display text-4xl font-bold uppercase leading-tight tracking-tight sm:text-5xl">
@@ -41,19 +50,20 @@ function AboutPage() {
   {`Laxmi Motors is an authorized Honda two-wheeler showroom located near Rest House in Lanja, Ratnagiri, serving customers from Lanja and surrounding areas. We offer a wide range of Honda motorcycles and scooters, helping customers choose a vehicle that suits their daily commute, family needs and lifestyle.
 
 Along with vehicle sales, we provide support for service, genuine spare parts, insurance and exchange facilities, making it convenient for customers to manage their two-wheeler needs in one place. Our experienced staff focuses on providing helpful guidance, clear information and a smooth buying experience from selecting a model to taking it home.
-
-At Laxmi Motors, we aim to build lasting customer relationships through dependable service and support before and after every purchase.`}
+`}
 </p>
+    </div>
+    <HeroSlider slides={SLIDES} variant="card" />
   </div>
 </section>
 
         <section className="container-page grid items-start gap-10 py-14 lg:grid-cols-2">
           <img
-            src="/images/reference/honda-factory.png"
-            alt={`Display floor at ${SHOWROOM.name}`}
+            src="/images/showroom/storefront.jpg"
+            alt={`${SHOWROOM.name} showroom front view`}
             loading="lazy"
-            width={1600}
-            height={1000}
+            width={1672}
+            height={941}
             className="rounded-2xl object-cover shadow-card"
           />
           <div className="space-y-8">
@@ -109,11 +119,13 @@ At Laxmi Motors, we aim to build lasting customer relationships through dependab
               </address>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg">
-                <a href={`tel:${SHOWROOM.phone}`}>
-                  <Phone /> Call showroom
-                </a>
-              </Button>
+              {SHOWROOM.contacts.map((c) => (
+                <Button key={c.label} asChild size="lg">
+                  <a href={`tel:${c.tel}`}>
+                    <Phone /> {c.label}: {c.display}
+                  </a>
+                </Button>
+              ))}
               <Button
                 asChild
                 size="lg"

@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { productsQuery, type Product } from "@/lib/catalogue";
+import { ContactNumbers } from "@/components/contact-numbers";
 import { SHOWROOM, formatPrice, waLink } from "@/lib/showroom";
 
 export function ProductListingPage({
@@ -60,6 +61,7 @@ export function ProductListingPage({
                   </a>
                 </Button>
               </div>
+              <ContactNumbers className="mt-4" />
             </div>
             <img
               src={image}

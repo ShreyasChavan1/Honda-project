@@ -43,12 +43,15 @@ function ContactPage() {
 
         <section className="container-page grid gap-10 py-12 lg:grid-cols-[1fr_1.1fr]">
           <div className="space-y-4">
-            <ContactTile
-              icon={<Phone className="size-5" />}
-              label="Phone"
-              value={SHOWROOM.phoneDisplay}
-              href={`tel:${SHOWROOM.phone}`}
-            />
+            {SHOWROOM.contacts.map((c) => (
+              <ContactTile
+                key={c.label}
+                icon={<Phone className="size-5" />}
+                label={`${c.label} enquiries`}
+                value={c.display}
+                href={`tel:${c.tel}`}
+              />
+            ))}
             <ContactTile
               icon={<MessageCircle className="size-5" />}
               label="WhatsApp"

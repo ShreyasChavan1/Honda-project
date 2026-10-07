@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { productQuery } from "@/lib/catalogue";
+import { ContactNumbers } from "@/components/contact-numbers";
 import { SHOWROOM, formatPrice, waLink } from "@/lib/showroom";
 
 export const Route = createFileRoute("/products/$id")({
@@ -112,6 +113,7 @@ function ProductDetailPage() {
                     </a>
                   </Button>
                 </div>
+                <ContactNumbers className="mt-4" />
               </div>
             </div>
           </div>

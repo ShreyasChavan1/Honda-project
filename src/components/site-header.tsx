@@ -36,9 +36,11 @@ export function SiteHeader() {
         <div className="container-page flex h-9 items-center justify-between text-xs">
           <p className="opacity-80">{SHOWROOM.tagline}</p>
           <div className="flex items-center gap-4">
-            <a href={`tel:${SHOWROOM.phone}`} className="hover:text-primary">
-              {SHOWROOM.phoneDisplay}
-            </a>
+            {SHOWROOM.contacts.map((c) => (
+              <a key={c.label} href={`tel:${c.tel}`} className="hover:text-primary">
+                {c.label}: {c.display}
+              </a>
+            ))}
             <span className="opacity-40">|</span>
             <span className="opacity-80">{SHOWROOM.hours[0].time} (Tue–Sun)</span>
           </div>

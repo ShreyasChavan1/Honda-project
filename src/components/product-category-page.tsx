@@ -4,6 +4,7 @@ import { MobileContactBar } from "@/components/mobile-contact-bar";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
+import { ContactNumbers } from "@/components/contact-numbers";
 import { SHOWROOM, waLink } from "@/lib/showroom";
 
 type Feature = {
@@ -58,6 +59,7 @@ export function ProductCategoryPage({
                   </a>
                 </Button>
               </div>
+              <ContactNumbers className="mt-4" />
             </div>
             <img
               src={image}

@@ -108,12 +108,14 @@ export function SiteFooter() {
                 ))}
               </address>
             </li>
-            <li className="flex gap-3">
-              <Phone className="size-4 shrink-0 text-primary" />
-              <a href={`tel:${SHOWROOM.phone}`} className="opacity-85 hover:text-primary">
-                {SHOWROOM.phoneDisplay}
-              </a>
-            </li>
+            {SHOWROOM.contacts.map((c) => (
+              <li key={c.label} className="flex gap-3">
+                <Phone className="size-4 shrink-0 text-primary" />
+                <a href={`tel:${c.tel}`} className="opacity-85 hover:text-primary">
+                  {c.label}: {c.display}
+                </a>
+              </li>
+            ))}
             <li className="flex gap-3">
               <MessageCircle className="size-4 shrink-0 text-primary" />
               <a

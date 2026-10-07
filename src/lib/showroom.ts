@@ -7,6 +7,10 @@ export const SHOWROOM = {
   phoneDisplay: "8830996202",
   phone: "+918830996202",
   whatsapp: "919922932430",
+  contacts: [
+    { label: "Sales", display: "9922932430", tel: "+919922932430" },
+    { label: "Workshop", display: "8830996202", tel: "+918830996202" },
+  ],
   email: null,
   addressLines: [
     "Laxmi Motors, Near Rest House",

@@ -274,36 +274,65 @@ function VehicleDetailPage() {
                   />
                 )}
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                  <Button asChild size="lg">
-                    <a href={`tel:${SHOWROOM.phone}`}>
-                      <Phone /> Call
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="secondary">
-                    <a
-                      href={waLink(
-                        `Hello ${SHOWROOM.name}, I am interested in the Honda ${vehicle.name}${
-                          variant ? ` ${variant.name}` : ""
-                        }${colour ? ` in ${colour.name}` : ""}. Is it available?`,
-                      )}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <MessageCircle /> WhatsApp
-                    </a>
-                  </Button>
-                  <Button asChild size="lg" variant="outline">
-                    <a href="#enquire">Enquire</a>
-                  </Button>
-                  {vehicle.brochure_url && (
-                    <Button asChild size="lg" variant="outline">
-                      <a href={vehicle.brochure_url} target="_blank" rel="noreferrer" download>
-                        <FileDown /> Brochure
-                      </a>
-                    </Button>
-                  )}
-                </div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  {SHOWROOM.contacts.map((c, i) => (
+  <Button
+    key={c.label}
+    asChild
+    size="lg"
+    variant={i === 0 ? "default" : "outline"}
+    className="w-full"
+  >
+    <a
+      href={`tel:${c.tel}`}
+      className="flex w-full items-center justify-center gap-2 whitespace-nowrap"
+    >
+      <Phone className="h-5 w-5 shrink-0" />
+      <span>
+        {c.label}
+      </span>
+    </a>
+  </Button>
+))}
+
+  <Button
+    asChild
+    size="lg"
+    variant="secondary"
+    className="w-full min-w-0"
+  >
+    <a
+      href={waLink(
+        `Hello ${SHOWROOM.name}, I am interested in the Honda ${vehicle.name}${
+          variant ? ` ${variant.name}` : ""
+        }${colour ? ` in ${colour.name}` : ""}. Is it available?`,
+      )}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <MessageCircle className="shrink-0" />
+      WhatsApp
+    </a>
+  </Button>
+
+  <Button asChild size="lg" variant="outline" className="w-full">
+    <a href="#enquire">Enquire</a>
+  </Button>
+
+  {vehicle.brochure_url && (
+    <Button asChild size="lg" variant="outline" className="w-full">
+      <a
+        href={vehicle.brochure_url}
+        target="_blank"
+        rel="noreferrer"
+        download
+      >
+        <FileDown className="shrink-0" />
+        Brochure
+      </a>
+    </Button>
+  )}
+</div>
               </div>
 
             </div>

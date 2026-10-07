@@ -152,7 +152,7 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
       {mutation.isError && (
         <p className="flex items-center gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
           <AlertCircle className="size-4 shrink-0" />
-          We could not send your enquiry. Please try again or call the showroom.
+          We could not send your enquiry. Please try again or call Sales on 9922932430 or Workshop on 8830996202.
         </p>
       )}
 

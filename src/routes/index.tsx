@@ -43,11 +43,11 @@ function HomePage() {
         {/* HERO */}
         <section className="relative isolate overflow-hidden bg-ink text-ink-foreground">
           <img
-            src="/images/demo/hero-showroom.jpg"
-            alt="Red Honda scooter on display inside the showroom"
-            width={1920}
-            height={1088}
-            className="absolute inset-0 h-full w-full object-cover object-right opacity-70"
+            src="/images/showroom/storefront.jpg"
+            alt="Laxmi Motors authorised Honda showroom front view"
+            width={1672}
+            height={941}
+            className="absolute inset-0 h-full w-full object-cover object-center opacity-70"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/20" />
           <div className="container-page relative flex min-h-[78vh] flex-col justify-center py-20">
@@ -209,11 +209,11 @@ function HomePage() {
         {/* ABOUT */}
         <section className="container-page grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-2">
           <img
-            src="/images/reference/honda-factory.png"
-            alt={`Inside the ${SHOWROOM.name} showroom`}
+            src="/images/showroom/storefront.jpg"
+            alt={`${SHOWROOM.name} showroom front view`}
             loading="lazy"
-            width={1600}
-            height={1000}
+            width={1672}
+            height={941}
             className="rounded-2xl object-cover shadow-card"
           />
           <div>
@@ -249,11 +249,13 @@ function HomePage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" variant="secondary">
-                <a href={`tel:${SHOWROOM.phone}`}>
-                  <Phone /> {SHOWROOM.phoneDisplay}
-                </a>
-              </Button>
+              {SHOWROOM.contacts.map((c) => (
+                <Button key={c.label} asChild size="lg" variant="secondary">
+                  <a href={`tel:${c.tel}`}>
+                    <Phone /> {c.label}: {c.display}
+                  </a>
+                </Button>
+              ))}
               <Button
                 asChild
                 size="lg"
