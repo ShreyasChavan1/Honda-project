@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/contact")({
 });
 
 function ContactPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen pb-14 md:pb-0">
       <SiteHeader />
@@ -31,12 +33,12 @@ function ContactPage() {
       <main>
         <section className="border-b border-border bg-secondary py-12">
           <div className="container-page">
-            <p className="eyebrow">Contact us</p>
+            <p className="eyebrow">{t("Contact us")}</p>
             <h1 className="mt-2 font-display text-4xl font-bold uppercase leading-tight tracking-tight sm:text-5xl">
-              Talk to our showroom team
+              {t("Talk to our showroom team")}
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Call, message or send an enquiry during showroom hours.
+              {t("Call, message or send an enquiry during showroom hours.")}
             </p>
           </div>
         </section>
@@ -47,7 +49,7 @@ function ContactPage() {
               <ContactTile
                 key={c.label}
                 icon={<Phone className="size-5" />}
-                label={`${c.label} enquiries`}
+                label={t("{label} enquiries", { label: t(c.label) })}
                 value={c.display}
                 href={`tel:${c.tel}`}
               />
@@ -55,7 +57,7 @@ function ContactPage() {
             <ContactTile
               icon={<MessageCircle className="size-5" />}
               label="WhatsApp"
-              value="Chat with us instantly"
+              value={t("Chat with us instantly")}
               href={waLink(`Hello ${SHOWROOM.name}, I have an enquiry.`)}
               external
             />
@@ -64,12 +66,12 @@ function ContactPage() {
                 <span className="flex size-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                   <MapPin className="size-5" />
                 </span>
-                <h2 className="font-display text-lg font-bold uppercase tracking-wide">Address</h2>
+                <h2 className="font-display text-lg font-bold uppercase tracking-wide">{t("Address")}</h2>
               </div>
               <address className="mt-3 not-italic text-sm text-muted-foreground">
                 {SHOWROOM.addressLines.map((line) => (
                   <span key={line} className="block">
-                    {line}
+                    {t(line)}
                   </span>
                 ))}
               </address>
@@ -80,14 +82,14 @@ function ContactPage() {
                   <Clock className="size-5" />
                 </span>
                 <h2 className="font-display text-lg font-bold uppercase tracking-wide">
-                  Business hours
+                  {t("Business hours")}
                 </h2>
               </div>
               <dl className="mt-3 space-y-1.5 text-sm">
                 {SHOWROOM.hours.map((h) => (
                   <div key={h.days} className="flex justify-between gap-4">
-                    <dt className="text-muted-foreground">{h.days}</dt>
-                    <dd className="font-semibold">{h.time}</dd>
+                    <dt className="text-muted-foreground">{t(h.days)}</dt>
+                    <dd className="font-semibold">{t(h.time)}</dd>
                   </div>
                 ))}
               </dl>
@@ -96,10 +98,10 @@ function ContactPage() {
 
           <div className="rounded-2xl border border-border bg-card p-6 shadow-card sm:p-8">
             <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
-              Send an enquiry
+              {t("Send an enquiry")}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Tell us which model you are interested in and we will get back to you.
+              {t("Tell us which model you are interested in and we will get back to you.")}
             </p>
             <div className="mt-6">
               <EnquiryForm />
@@ -108,10 +110,10 @@ function ContactPage() {
         </section>
 
         <section className="container-page pb-16">
-          <h2 className="font-display text-3xl font-bold uppercase tracking-wide">Find the showroom</h2>
+          <h2 className="font-display text-3xl font-bold uppercase tracking-wide">{t("Find the showroom")}</h2>
           <div className="mt-5 overflow-hidden rounded-2xl border border-border">
             <iframe
-              title={`Map showing ${SHOWROOM.name} location`}
+              title={t("Map showing {name} location", { name: t(SHOWROOM.name) })}
               src={`https://www.google.com/maps?q=${encodeURIComponent(SHOWROOM.mapEmbedQuery)}&output=embed`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

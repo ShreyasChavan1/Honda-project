@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import { z } from "zod";
@@ -27,6 +28,7 @@ type Fields = z.infer<typeof schema>;
 const EMPTY: Fields = { name: "", phone: "", email: "", vehicle_interest: "", message: "" };
 
 export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
+  const { t } = useI18n();
   const [fields, setFields] = useState<Fields>({
     ...EMPTY,
     vehicle_interest: defaultVehicle ?? "",
@@ -72,13 +74,13 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
       <div className="rounded-xl border border-success/30 bg-success/8 p-8 text-center">
         <CheckCircle2 className="mx-auto size-10 text-success" />
         <h3 className="mt-4 font-display text-2xl font-bold uppercase tracking-wide">
-          Enquiry sent
+          {t("Enquiry sent")}
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Thank you. Our team will get back to you shortly during showroom hours.
+          {t("Thank you. Our team will get back to you shortly during showroom hours.")}
         </p>
         <Button variant="outline" className="mt-6" onClick={() => mutation.reset()}>
-          Send another enquiry
+          {t("Send another enquiry")}
         </Button>
       </div>
     );
@@ -87,22 +89,22 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id="name" label="Your name" error={errors.name}>
+        <Field id="name" label={t("Your name")} error={errors.name}>
           <Input
             id="name"
             value={fields.name}
             onChange={(e) => set("name")(e.target.value)}
-            placeholder="Rahul Sharma"
+            placeholder={t("Rahul Sharma")}
             autoComplete="name"
             className="h-12"
           />
         </Field>
-        <Field id="phone" label="Phone number" error={errors.phone}>
+        <Field id="phone" label={t("Phone number")} error={errors.phone}>
           <Input
             id="phone"
             value={fields.phone}
             onChange={(e) => set("phone")(e.target.value)}
-            placeholder="Your mobile number"
+            placeholder={t("Your mobile number")}
             inputMode="tel"
             autoComplete="tel"
             className="h-12"
@@ -111,7 +113,7 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field id="email" label="Email (optional)" error={errors.email}>
+        <Field id="email" label={t("Email (optional)")} error={errors.email}>
           <Input
             id="email"
             value={fields.email}
@@ -122,14 +124,14 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
             className="h-12"
           />
         </Field>
-        <Field id="vehicle_interest" label="Interested vehicle" error={errors.vehicle_interest}>
+        <Field id="vehicle_interest" label={t("Interested vehicle")} error={errors.vehicle_interest}>
           <select
             id="vehicle_interest"
             value={fields.vehicle_interest}
             onChange={(e) => set("vehicle_interest")(e.target.value)}
             className="h-12 w-full rounded-md border border-input bg-background px-3 text-base"
           >
-            <option value="">Not decided yet</option>
+            <option value="">{t("Not decided yet")}</option>
             {(vehicles ?? []).map((v) => (
               <option key={v.id} value={v.name}>
                 {v.name}
@@ -139,28 +141,28 @@ export function EnquiryForm({ defaultVehicle }: { defaultVehicle?: string }) {
         </Field>
       </div>
 
-      <Field id="message" label="Message" error={errors.message}>
+      <Field id="message" label={t("Message")} error={errors.message}>
         <Textarea
           id="message"
           value={fields.message}
           onChange={(e) => set("message")(e.target.value)}
           rows={4}
-          placeholder="Tell us what you would like to know — price, availability, test ride, finance…"
+          placeholder={t("Tell us what you would like to know — price, availability, test ride, finance…")}
         />
       </Field>
 
       {mutation.isError && (
         <p className="flex items-center gap-2 rounded-md bg-destructive/10 p-3 text-sm text-destructive">
           <AlertCircle className="size-4 shrink-0" />
-          We could not send your enquiry. Please try again or call Sales on 9922932430 or Workshop on 8830996202.
+          {t("We could not send your enquiry. Please try again or call Sales on 9922932430 or Workshop on 8830996202.")}
         </p>
       )}
 
       <Button type="submit" size="lg" className="w-full" disabled={mutation.isPending}>
-        <Send /> {mutation.isPending ? "Sending…" : "Send Enquiry"}
+        <Send /> {mutation.isPending ? t("Sending…") : t("Send Enquiry")}
       </Button>
       <p className="text-xs text-muted-foreground">
-        We use your details only to respond to this enquiry. No account is created.
+        {t("We use your details only to respond to this enquiry. No account is created.")}
       </p>
     </form>
   );
@@ -177,11 +179,12 @@ function Field({
   error?: string | undefined;
   children: React.ReactNode;
 }) {
+  const { t } = useI18n();
   return (
     <div className="space-y-1.5">
       <Label htmlFor={id}>{label}</Label>
       {children}
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <p className="text-xs text-destructive">{t(error)}</p>}
     </div>
   );
 }

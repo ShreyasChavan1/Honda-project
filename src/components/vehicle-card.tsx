@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { ArrowRight, Info, Play } from "lucide-react";
 import { AvailabilityBadge } from "@/components/availability-badge";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import type { Vehicle } from "@/lib/catalogue";
 import { categoryLabel, formatPrice } from "@/lib/showroom";
 
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
+  const { t } = useI18n();
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
       <Link
@@ -15,7 +17,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
       >
         <img
           src={vehicle.image_url}
-          alt={`Honda ${vehicle.name} ${categoryLabel(vehicle.category).toLowerCase()}`}
+          alt={t("Honda {name} {category}", { name: vehicle.name, category: categoryLabel(vehicle.category).toLowerCase() })}
           loading="lazy"
           width={1200}
           height={900}
@@ -30,7 +32,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             target="_blank"
             rel="noreferrer"
             onClick={(e) => e.stopPropagation()}
-            aria-label={`Watch ${vehicle.name} video`}
+            aria-label={t("Watch {name} video", { name: vehicle.name })}
             className="absolute right-3 top-3 flex size-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-red transition-transform hover:scale-105"
           >
             <Play className="ml-0.5 size-4" />
@@ -59,13 +61,13 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
         <div className="mt-auto flex items-end justify-between gap-3 pt-2">
           <div>
             <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-              Starting from
+              {t("Starting from")}
             </p>
             <p className="font-display text-xl font-bold">{formatPrice(vehicle.price_from)}</p>
           </div>
           <Button asChild size="sm">
             <Link to="/vehicles/$slug" params={{ slug: vehicle.slug }}>
-              View Details <ArrowRight />
+              {t("View Details")} <ArrowRight />
             </Link>
           </Button>
         </div>

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { AvailabilityBadge } from "@/components/availability-badge";
@@ -28,6 +29,7 @@ export function ProductListingPage({
   imageAlt: string;
   note: string;
 }) {
+  const { t } = useI18n();
   const { data, isLoading, isError } = useQuery(productsQuery(category));
   const products = data ?? [];
 
@@ -38,17 +40,17 @@ export function ProductListingPage({
         <section className="border-b border-border bg-secondary">
           <div className="container-page grid items-center gap-10 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:py-16">
             <div>
-              <p className="eyebrow">{eyebrow}</p>
+              <p className="eyebrow">{t(eyebrow)}</p>
               <h1 className="mt-3 font-display text-5xl font-bold uppercase leading-none sm:text-6xl">
-                {title}
+                {t(title)}
               </h1>
               <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-                {description}
+                {t(description)}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="lg">
                   <Link to="/contact">
-                    Enquire at showroom <ArrowRight />
+                    {t("Enquire at showroom")} <ArrowRight />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
@@ -65,7 +67,7 @@ export function ProductListingPage({
             </div>
             <img
               src={image}
-              alt={imageAlt}
+              alt={t(imageAlt)}
               width={1400}
               height={900}
               className="aspect-[14/9] w-full rounded-xl border border-border object-contain shadow-card"
@@ -75,9 +77,9 @@ export function ProductListingPage({
 
         <section className="container-page py-14 sm:py-20">
           <div className="max-w-2xl">
-            <p className="eyebrow">Explore the range</p>
+            <p className="eyebrow">{t("Explore the range")}</p>
             <h2 className="mt-2 font-display text-4xl font-bold uppercase leading-tight">
-              Available at our showroom
+              {t("Available at our showroom")}
             </h2>
           </div>
 
@@ -91,13 +93,13 @@ export function ProductListingPage({
 
           {isError && (
             <p className="mt-9 rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-sm text-muted-foreground">
-              Could not load products. Please refresh the page.
+              {t("Could not load products. Please refresh the page.")}
             </p>
           )}
 
           {!isLoading && !isError && products.length === 0 && (
             <p className="mt-9 rounded-xl border border-border bg-card p-8 text-sm text-muted-foreground">
-              Products will be listed here shortly. Contact us for current availability.
+              {t("Products will be listed here shortly. Contact us for current availability.")}
             </p>
           )}
 
@@ -109,7 +111,7 @@ export function ProductListingPage({
             </div>
           )}
 
-          <p className="mt-10 border-l-2 border-primary pl-4 text-sm text-muted-foreground">{note}</p>
+          <p className="mt-10 border-l-2 border-primary pl-4 text-sm text-muted-foreground">{t(note)}</p>
         </section>
       </main>
       <SiteFooter />
@@ -119,6 +121,7 @@ export function ProductListingPage({
 }
 
 function ProductCard({ product }: { product: Product }) {
+  const { t } = useI18n();
   return (
     <article className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-card">
       <Link
@@ -138,7 +141,7 @@ function ProductCard({ product }: { product: Product }) {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-              Image coming soon
+              {t("Image coming soon")}
             </div>
           )}
         </div>
@@ -153,7 +156,7 @@ function ProductCard({ product }: { product: Product }) {
           <p className="font-display text-lg font-bold">{formatPrice(product.price)}</p>
           <div className="flex gap-2">
             <Button asChild size="sm">
-              <Link to="/products/$id" params={{ id: product.id }}>View details</Link>
+              <Link to="/products/$id" params={{ id: product.id }}>{t("View details")}</Link>
             </Button>
             <Button asChild size="sm" variant="outline">
               <a
@@ -161,7 +164,7 @@ function ProductCard({ product }: { product: Product }) {
                 target="_blank"
                 rel="noreferrer"
               >
-                Enquire
+                {t("Enquire")}
               </a>
             </Button>
           </div>

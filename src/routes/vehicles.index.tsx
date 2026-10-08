@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -34,6 +35,7 @@ export const Route = createFileRoute("/vehicles/")({
 });
 
 function VehiclesPage() {
+  const { t } = useI18n();
   const { category } = Route.useSearch();
   const navigate = useNavigate({ from: "/vehicles/" });
   const { data, isLoading, isError } = useQuery(vehiclesQuery);
@@ -49,20 +51,20 @@ function VehiclesPage() {
       <main>
         <section className="border-b border-border bg-secondary py-12">
           <div className="container-page">
-            <p className="eyebrow">Our catalogue</p>
+            <p className="eyebrow">{t("Our catalogue")}</p>
             <h1 className="mt-2 font-display text-4xl font-bold uppercase leading-tight tracking-tight sm:text-5xl">
-              Honda vehicles at our showroom
+              {t("Honda vehicles at our showroom")}
             </h1>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              Explore Honda scooters, motorcycles and EVs at Laxmi Motors. Availability is maintained manually by our showroom team, so please call us to confirm before you visit.
+              {t("Explore Honda scooters, motorcycles and EVs at Laxmi Motors. Availability is maintained manually by our showroom team, so please call us to confirm before you visit.")}
             </p>
           </div>
         </section>
 
         <section className="container-page py-10">
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">
+          <div className="flex flex-wrap gap-2" role="group" aria-label={t("Filter by category")}>
             <FilterChip active={!category} onClick={() => setCategory(undefined)}>
-              All Vehicles
+              {t("All Vehicles")}
             </FilterChip>
             {CATEGORIES.map((c) => (
               <FilterChip
@@ -70,13 +72,13 @@ function VehiclesPage() {
                 active={category === c.value}
                 onClick={() => setCategory(c.value)}
               >
-                {c.label}
+                {t(c.label)}
               </FilterChip>
             ))}
           </div>
 
           <p className="mt-6 text-sm text-muted-foreground">
-            {isLoading ? "Loading models…" : `${vehicles.length} model${vehicles.length === 1 ? "" : "s"} listed`}
+            {isLoading ? t("Loading models…") : t(vehicles.length === 1 ? "{n} model listed" : "{n} models listed", { n: vehicles.length })}
           </p>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,21 +93,21 @@ function VehiclesPage() {
 
           {isError && (
             <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-center">
-              <p className="font-display text-xl font-bold uppercase">Could not load the catalogue</p>
+              <p className="font-display text-xl font-bold uppercase">{t("Could not load the catalogue")}</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Please refresh the page or call the showroom for model details.
+                {t("Please refresh the page or call the showroom for model details.")}
               </p>
             </div>
           )}
 
           {!isLoading && !isError && vehicles.length === 0 && (
             <div className="rounded-xl border border-border bg-card p-10 text-center">
-              <p className="font-display text-xl font-bold uppercase">No vehicles in this category</p>
+              <p className="font-display text-xl font-bold uppercase">{t("No vehicles in this category")}</p>
               <p className="mt-2 text-sm text-muted-foreground">
-                Try another category or view the full catalogue.
+                {t("Try another category or view the full catalogue.")}
               </p>
               <Button className="mt-6" onClick={() => setCategory(undefined)}>
-                View all vehicles
+                {t("View all vehicles")}
               </Button>
             </div>
           )}

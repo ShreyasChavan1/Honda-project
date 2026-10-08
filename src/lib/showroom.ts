@@ -1,3 +1,5 @@
+import { translate } from "@/lib/i18n";
+
 export const SHOWROOM = {
   isDemoContent: false,
   name: "Laxmi Motors",
@@ -137,14 +139,14 @@ export const toEmbedUrl = (url: string) => {
 };
 
 export const categoryLabel = (value: string) =>
-  CATEGORIES.find((c) => c.value === value)?.label ?? value;
+  translate(CATEGORIES.find((c) => c.value === value)?.label ?? value);
 
 export const waLink = (message: string) =>
   `https://wa.me/${SHOWROOM.whatsapp}?text=${encodeURIComponent(message)}`;
 
 export const formatPrice = (value: number | null | undefined) =>
   value == null
-    ? "Price on request"
+    ? translate("Price on request")
     : new Intl.NumberFormat("en-IN", {
         style: "currency",
         currency: "INR",

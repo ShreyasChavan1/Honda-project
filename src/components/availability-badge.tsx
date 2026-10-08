@@ -1,4 +1,5 @@
 import { CheckCircle2, Clock } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function AvailabilityBadge({
@@ -10,6 +11,7 @@ export function AvailabilityBadge({
   size?: "sm" | "lg";
   className?: string;
 }) {
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -22,7 +24,7 @@ export function AvailabilityBadge({
       )}
     >
       {available ? <CheckCircle2 className="size-3.5" /> : <Clock className="size-3.5" />}
-      {available ? "Available at Showroom" : "Currently Unavailable"}
+      {available ? t("Available at Showroom") : t("Currently Unavailable")}
     </span>
   );
 }

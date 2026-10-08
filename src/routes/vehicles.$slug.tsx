@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, FileDown, MessageCircle, Phone, Volume2, VolumeX } from "lucide-react";
@@ -43,6 +44,7 @@ export const Route = createFileRoute("/vehicles/$slug")({
 });
 
 function VehicleDetailPage() {
+  const { t } = useI18n();
   const { slug } = Route.useParams();
   const { data: vehicle, isLoading, isError } = useQuery(vehicleQuery(slug));
   const { data: variants } = useQuery(variantsQuery(vehicle?.id));
@@ -81,7 +83,7 @@ function VehicleDetailPage() {
           to="/vehicles"
           className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground hover:text-primary"
         >
-          <ArrowLeft className="size-4" /> Back to catalogue
+          <ArrowLeft className="size-4" /> {t("Back to catalogue")}
         </Link>
 
         {isLoading && (
@@ -97,18 +99,18 @@ function VehicleDetailPage() {
 
         {isError && (
           <p className="mt-10 rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-center text-sm text-muted-foreground">
-            We could not load this model. Please refresh or call the showroom.
+            {t("We could not load this model. Please refresh or call the showroom.")}
           </p>
         )}
 
         {!isLoading && !isError && !vehicle && (
           <div className="mt-10 rounded-xl border border-border bg-card p-10 text-center">
-            <h1 className="font-display text-3xl font-bold uppercase">Model not found</h1>
+            <h1 className="font-display text-3xl font-bold uppercase">{t("Model not found")}</h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              This model is not listed at our showroom.
+              {t("This model is not listed at our showroom.")}
             </p>
             <Button asChild className="mt-6">
-              <Link to="/vehicles">Browse all vehicles</Link>
+              <Link to="/vehicles">{t("Browse all vehicles")}</Link>
             </Button>
           </div>
         )}
@@ -121,7 +123,7 @@ function VehicleDetailPage() {
                   <video
                     ref={videoRef}
                     src={vehicle.video_url}
-                    title={`${vehicle.name} video`}
+                    title={t("{name} video", { name: vehicle.name })}
                     autoPlay
                     muted
                     loop
@@ -137,7 +139,7 @@ function VehicleDetailPage() {
                       videoRef.current.muted = !videoRef.current.muted;
                       setIsMuted(videoRef.current.muted);
                     }}
-                    aria-label={isMuted ? "Unmute video" : "Mute video"}
+                    aria-label={isMuted ? t("Unmute video") : t("Mute video")}
                     className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition hover:bg-black/80"
                   >
                     {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
@@ -151,7 +153,7 @@ function VehicleDetailPage() {
                 <div className="overflow-hidden rounded-2xl border border-border bg-secondary">
                   <img
                     src={shown}
-                    alt={`Honda ${vehicle.name} — ${categoryLabel(vehicle.category)}`}
+                    alt={t("Honda {name} — {category}", { name: vehicle.name, category: categoryLabel(vehicle.category) })}
                     width={1200}
                     height={900}
                     className="aspect-4/3 w-full object-cover"
@@ -171,7 +173,7 @@ function VehicleDetailPage() {
                       >
                         <img
                           src={image}
-                          alt={`${vehicle.name} photo`}
+                          alt={t("{name} photo", { name: vehicle.name })}
                           loading="lazy"
                           className="h-full w-full object-cover"
                         />
@@ -184,7 +186,7 @@ function VehicleDetailPage() {
               <div>
                 <p className="eyebrow">{categoryLabel(vehicle.category)}</p>
                 <h1 className="mt-2 font-display text-5xl font-bold uppercase leading-none tracking-tight">
-                  Honda {vehicle.name}
+                  {t("Honda {name}", { name: vehicle.name })}
                 </h1>
                 <div className="mt-4">
                   <AvailabilityBadge available={available} size="lg" />
@@ -194,7 +196,7 @@ function VehicleDetailPage() {
                 {variantList.length > 0 && (
                   <div className="mt-6">
                     <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] text-muted-foreground">
-                      Variants
+                      {t("Variants")}
                     </h2>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {variantList.map((item) => (
@@ -223,7 +225,7 @@ function VehicleDetailPage() {
                 {colours.length > 0 && (
                   <div className="mt-6">
                     <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] text-muted-foreground">
-                      Available colours
+                      {t("Available colours")}
                     </h2>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {colours.map((item) => (
@@ -252,18 +254,18 @@ function VehicleDetailPage() {
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                        Ex-showroom price
+                        {t("Ex-showroom price")}
                       </p>
                       <p className="font-display text-4xl font-bold">{formatPrice(exShowroom)}</p>
                     </div>
                     <div>
                       <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                        On-road price
+                        {t("On-road price")}
                       </p>
                       <p className="font-display text-4xl font-bold">{formatPrice(onRoad)}</p>
                     </div>
                   </div>
-                  <p className="mt-3 text-xs text-muted-foreground">{EMI_DISCLAIMER}</p>
+                  <p className="mt-3 text-xs text-muted-foreground">{t(EMI_DISCLAIMER)}</p>
                 </div>
 
                 {variant && (
@@ -274,65 +276,38 @@ function VehicleDetailPage() {
                   />
                 )}
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-  {SHOWROOM.contacts.map((c, i) => (
-  <Button
-    key={c.label}
-    asChild
-    size="lg"
-    variant={i === 0 ? "default" : "outline"}
-    className="w-full"
-  >
-    <a
-      href={`tel:${c.tel}`}
-      className="flex w-full items-center justify-center gap-2 whitespace-nowrap"
-    >
-      <Phone className="h-5 w-5 shrink-0" />
-      <span>
-        {c.label}
-      </span>
-    </a>
-  </Button>
-))}
-
-  <Button
-    asChild
-    size="lg"
-    variant="secondary"
-    className="w-full min-w-0"
-  >
-    <a
-      href={waLink(
-        `Hello ${SHOWROOM.name}, I am interested in the Honda ${vehicle.name}${
-          variant ? ` ${variant.name}` : ""
-        }${colour ? ` in ${colour.name}` : ""}. Is it available?`,
-      )}
-      target="_blank"
-      rel="noreferrer"
-    >
-      <MessageCircle className="shrink-0" />
-      WhatsApp
-    </a>
-  </Button>
-
-  <Button asChild size="lg" variant="outline" className="w-full">
-    <a href="#enquire">Enquire</a>
-  </Button>
-
-  {vehicle.brochure_url && (
-    <Button asChild size="lg" variant="outline" className="w-full">
-      <a
-        href={vehicle.brochure_url}
-        target="_blank"
-        rel="noreferrer"
-        download
-      >
-        <FileDown className="shrink-0" />
-        Brochure
-      </a>
-    </Button>
-  )}
-</div>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {SHOWROOM.contacts.map((c, i) => (
+                    <Button key={c.label} asChild size="lg" variant={i === 0 ? "default" : "outline"}>
+                      <a href={`tel:${c.tel}`}>
+                        <Phone /> {t(c.label)}: {c.display}
+                      </a>
+                    </Button>
+                  ))}
+                  <Button asChild size="lg" variant="secondary">
+                    <a
+                      href={waLink(
+                        `Hello ${SHOWROOM.name}, I am interested in the Honda ${vehicle.name}${
+                          variant ? ` ${variant.name}` : ""
+                        }${colour ? ` in ${colour.name}` : ""}. Is it available?`,
+                      )}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <MessageCircle /> WhatsApp
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline">
+                    <a href="#enquire">{t("Enquire")}</a>
+                  </Button>
+                  {vehicle.brochure_url && (
+                    <Button asChild size="lg" variant="outline">
+                      <a href={vehicle.brochure_url} target="_blank" rel="noreferrer" download>
+                        <FileDown /> {t("Brochure")}
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </div>
 
             </div>
@@ -340,7 +315,7 @@ function VehicleDetailPage() {
             <section className="mt-14 grid gap-10 lg:grid-cols-2">
               <div>
                 <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
-                  About this model
+                  {t("About this model")}
                 </h2>
                 <p className="mt-4 text-muted-foreground">{vehicle.description}</p>
                 {vehicle.info_context && (
@@ -351,7 +326,7 @@ function VehicleDetailPage() {
               </div>
               <div>
                 <h2 className="font-display text-3xl font-bold uppercase tracking-wide">
-                  Key specifications
+                  {t("Key specifications")}
                 </h2>
                 <dl className="mt-4 divide-y divide-border rounded-xl border border-border bg-card">
                   {Object.entries(specs).map(([key, value]) => (
@@ -362,7 +337,7 @@ function VehicleDetailPage() {
                   ))}
                   {Object.keys(specs).length === 0 && (
                     <p className="px-5 py-4 text-sm text-muted-foreground">
-                      Specifications will be updated shortly.
+                      {t("Specifications will be updated shortly.")}
                     </p>
                   )}
                 </dl>
@@ -370,13 +345,12 @@ function VehicleDetailPage() {
             </section>
 
             <section id="enquire" className="mt-16 rounded-2xl border border-border bg-secondary p-6 sm:p-10">
-              <p className="eyebrow">Enquire about this model</p>
+              <p className="eyebrow">{t("Enquire about this model")}</p>
               <h2 className="mt-2 font-display text-3xl font-bold uppercase tracking-wide">
-                Ask us about the Honda {vehicle.name}
+                {t("Ask us about the Honda {name}", { name: vehicle.name })}
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Send us your details and our team will call you back with price, availability and test
-                ride options.
+                {t("Send us your details and our team will call you back with price, availability and test ride options.")}
               </p>
               <div className="mt-8 max-w-3xl">
                 <EnquiryForm defaultVehicle={variant ? `${vehicle.name} ${variant.name}` : vehicle.name} />
@@ -399,6 +373,7 @@ function EmiCalculator({
   onRoadPrice: number | null;
   options: EmiOption[];
 }) {
+  const { t } = useI18n();
   const [downPayment, setDownPayment] = useState(0);
   const [tenureIndex, setTenureIndex] = useState(0);
   const [interestRate, setInterestRate] = useState(options[0]?.rate ?? 10);
@@ -413,42 +388,42 @@ function EmiCalculator({
   return (
     <div className="mt-6 rounded-xl border border-border bg-card p-5">
       <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] text-muted-foreground">
-        EMI calculator
+        {t("EMI calculator")}
       </h2>
 
       <div className="mt-5 grid gap-6 sm:grid-cols-2">
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-4">
-            <Label htmlFor="emi-down">Down payment</Label>
+            <Label htmlFor="emi-down">{t("Down payment")}</Label>
             <output className="font-display text-lg font-bold text-primary">{formatPrice(downPayment)}</output>
           </div>
-          <Slider id="emi-down" aria-label="Down payment" min={0} max={onRoadPrice} step={downPaymentStep} value={[downPayment]} onValueChange={(value) => setDownPayment(Math.min(value[0] ?? 0, onRoadPrice))} />
+          <Slider id="emi-down" aria-label={t("Down payment")} min={0} max={onRoadPrice} step={downPaymentStep} value={[downPayment]} onValueChange={(value) => setDownPayment(Math.min(value[0] ?? 0, onRoadPrice))} />
           <div className="flex justify-between text-[11px] text-muted-foreground"><span>{formatPrice(0)}</span><span>{formatPrice(onRoadPrice)}</span></div>
         </div>
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-4">
-            <Label htmlFor="emi-tenure">Loan tenure</Label>
-            <output className="font-display text-lg font-bold text-primary">{selected.months} months</output>
+            <Label htmlFor="emi-tenure">{t("Loan tenure")}</Label>
+            <output className="font-display text-lg font-bold text-primary">{t("{n} months", { n: selected.months })}</output>
           </div>
-          <Slider id="emi-tenure" aria-label="Loan tenure" min={0} max={options.length - 1} step={1} value={[tenureIndex]} onValueChange={(value) => { const nextIndex = value[0] ?? 0; const nextOption = options[nextIndex]; setTenureIndex(nextIndex); if (nextOption) setInterestRate(nextOption.rate); }} />
-          <div className="flex justify-between text-[11px] text-muted-foreground"><span>{options[0]?.months} mo</span><span>{options[options.length - 1]?.months} mo</span></div>
+          <Slider id="emi-tenure" aria-label={t("Loan tenure")} min={0} max={options.length - 1} step={1} value={[tenureIndex]} onValueChange={(value) => { const nextIndex = value[0] ?? 0; const nextOption = options[nextIndex]; setTenureIndex(nextIndex); if (nextOption) setInterestRate(nextOption.rate); }} />
+          <div className="flex justify-between text-[11px] text-muted-foreground"><span>{t("{n} mo", { n: options[0]?.months ?? "" })}</span><span>{t("{n} mo", { n: options[options.length - 1]?.months ?? "" })}</span></div>
         </div>
       </div>
 
       <div className="mt-6 space-y-3">
         <div className="flex items-center justify-between gap-4">
-          <Label htmlFor="emi-interest">Interest rate</Label>
-          <output className="font-display text-lg font-bold text-primary">{interestRate.toFixed(1)}% p.a.</output>
+          <Label htmlFor="emi-interest">{t("Interest rate")}</Label>
+          <output className="font-display text-lg font-bold text-primary">{interestRate.toFixed(1)}% {t("p.a.")}</output>
         </div>
-        <Slider id="emi-interest" aria-label="Interest rate" min={1} max={24} step={0.1} value={[interestRate]} onValueChange={(value) => setInterestRate(value[0] ?? selected.rate)} />
+        <Slider id="emi-interest" aria-label={t("Interest rate")} min={1} max={24} step={0.1} value={[interestRate]} onValueChange={(value) => setInterestRate(value[0] ?? selected.rate)} />
         <div className="flex justify-between text-[11px] text-muted-foreground"><span>1%</span><span>24%</span></div>
-        <p className="text-[11px] text-muted-foreground">Defaults to the showroom rate for the selected tenure. Adjust it to compare estimates.</p>
+        <p className="text-[11px] text-muted-foreground">{t("Defaults to the showroom rate for the selected tenure. Adjust it to compare estimates.")}</p>
       </div>
 
       <dl className="mt-5 grid gap-3 sm:grid-cols-3">
         <div className="rounded-lg border border-border bg-secondary px-4 py-3">
           <dt className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            Loan amount
+            {t("Loan amount")}
           </dt>
           <dd className="font-display text-xl font-bold">
             {formatPrice(loanAmount)}
@@ -456,22 +431,22 @@ function EmiCalculator({
         </div>
         <div className="rounded-lg border border-border bg-secondary px-4 py-3">
           <dt className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            Interest rate
+            {t("Interest rate")}
           </dt>
-          <dd className="font-display text-xl font-bold">{interestRate.toFixed(1)}% p.a.</dd>
-          <p className="text-[11px] text-muted-foreground">User-selected estimate</p>
+          <dd className="font-display text-xl font-bold">{interestRate.toFixed(1)}% {t("p.a.")}</dd>
+          <p className="text-[11px] text-muted-foreground">{t("User-selected estimate")}</p>
         </div>
         <div className="rounded-lg border border-primary/40 bg-primary/5 px-4 py-3">
           <dt className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            Estimated EMI
+            {t("Estimated EMI")}
           </dt>
           <dd className="font-display text-xl font-bold text-primary">
-            {`${formatPrice(Math.round(emi))}/mo`}
+            {`${formatPrice(Math.round(emi))}${t("/mo")}`}
           </dd>
         </div>
       </dl>
 
-      <p className="mt-4 text-xs text-muted-foreground">{EMI_DISCLAIMER}</p>
+      <p className="mt-4 text-xs text-muted-foreground">{t(EMI_DISCLAIMER)}</p>
     </div>
   );
 }

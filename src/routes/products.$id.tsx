@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { AvailabilityBadge } from "@/components/availability-badge";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/products/$id")({
 });
 
 function ProductDetailPage() {
+  const { t } = useI18n();
   const { id } = Route.useParams();
   const { data: product, isLoading, isError } = useQuery(productQuery(id));
 
@@ -39,11 +41,11 @@ function ProductDetailPage() {
       <div className="min-h-screen">
         <SiteHeader />
         <main className="container-page py-20 text-center">
-          <h1 className="font-display text-4xl font-bold uppercase">Product not found</h1>
-          <p className="mt-3 text-muted-foreground">This product may have been removed or is no longer available.</p>
+          <h1 className="font-display text-4xl font-bold uppercase">{t("Product not found")}</h1>
+          <p className="mt-3 text-muted-foreground">{t("This product may have been removed or is no longer available.")}</p>
           <Button asChild className="mt-6">
             <Link to="/products/lubes">
-              <ArrowLeft /> Back to products
+              <ArrowLeft /> {t("Back to products")}
             </Link>
           </Button>
         </main>
@@ -63,7 +65,7 @@ function ProductDetailPage() {
           <div className="container-page py-8 sm:py-10">
             <Link to={categoryPath} className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary">
               <ArrowLeft className="h-4 w-4" />
-              Back to {product.category === "lubes" ? "Genuine Lubes & Chemicals" : "Accessories"}
+              {t("Back to {name}", { name: t(product.category === "lubes" ? "Genuine Lubes & Chemicals" : "Accessories") })}
             </Link>
 
             <div className="mt-8 grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
@@ -73,7 +75,7 @@ function ProductDetailPage() {
                     <img src={images[0]} alt={product.name} className="aspect-[4/3] h-full w-full object-cover" />
                   ) : (
                     <div className="flex aspect-[4/3] items-center justify-center bg-background text-sm text-muted-foreground">
-                      Image coming soon
+                      {t("Image coming soon")}
                     </div>
                   )}
                 </div>
@@ -93,7 +95,7 @@ function ProductDetailPage() {
               </div>
 
               <div>
-                <p className="eyebrow">{product.category === "lubes" ? "Genuine Lubes & Chemicals" : "Accessories"}</p>
+                <p className="eyebrow">{t(product.category === "lubes" ? "Genuine Lubes & Chemicals" : "Accessories")}</p>
                 <h1 className="mt-3 font-display text-5xl font-bold uppercase leading-none sm:text-6xl">{product.name}</h1>
                 <div className="mt-5">
                   <AvailabilityBadge available={product.is_available} />
@@ -104,7 +106,7 @@ function ProductDetailPage() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Button asChild size="lg">
                     <Link to="/contact">
-                      Enquire at showroom
+                      {t("Enquire at showroom")}
                     </Link>
                   </Button>
                   <Button asChild size="lg" variant="outline">

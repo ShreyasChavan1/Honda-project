@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export type HeroSlide = { src: string; alt: string };
@@ -14,6 +15,7 @@ export function HeroSlider({
   /** "full" = edge-to-edge banner, "card" = rounded image block for use inside a column */
   variant?: "full" | "card";
 }) {
+  const { t } = useI18n();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const count = slides.length;
@@ -31,7 +33,7 @@ export function HeroSlider({
     <section
       className={`relative isolate overflow-hidden bg-ink ${card ? "rounded-2xl shadow-card" : ""}`}
       aria-roledescription="carousel"
-      aria-label="Showroom photos"
+      aria-label={t("Showroom photos")}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -63,7 +65,7 @@ export function HeroSlider({
           <button
             type="button"
             onClick={() => go(index - 1)}
-            aria-label="Previous slide"
+            aria-label={t("Previous slide")}
             className="absolute left-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-primary sm:left-6 sm:size-12"
           >
             <ChevronLeft className="size-6" />
@@ -71,7 +73,7 @@ export function HeroSlider({
           <button
             type="button"
             onClick={() => go(index + 1)}
-            aria-label="Next slide"
+            aria-label={t("Next slide")}
             className="absolute right-3 top-1/2 z-10 flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-primary sm:right-6 sm:size-12"
           >
             <ChevronRight className="size-6" />
@@ -82,7 +84,7 @@ export function HeroSlider({
                 key={i}
                 type="button"
                 onClick={() => go(i)}
-                aria-label={`Go to slide ${i + 1}`}
+                aria-label={t("Go to slide {n}", { n: i + 1 })}
                 aria-current={i === index}
                 className={`h-2.5 rounded-full transition-all ${
                   i === index ? "w-7 bg-primary" : "w-2.5 bg-white/70 hover:bg-white"

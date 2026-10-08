@@ -1,29 +1,31 @@
 import { Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 import { SHOWROOM, waLink } from "@/lib/showroom";
 
 export function SiteFooter() {
+  const { t } = useI18n();
   return (
     <footer className="mt-20 bg-ink text-ink-foreground">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-2xl font-bold uppercase tracking-wide">{SHOWROOM.name}</p>
-          <p className="mt-3 max-w-xs text-sm opacity-75">{SHOWROOM.shortDescription}</p>
+          <p className="font-display text-2xl font-bold uppercase tracking-wide">{t(SHOWROOM.name)}</p>
+          <p className="mt-3 max-w-xs text-sm opacity-75">{t(SHOWROOM.shortDescription)}</p>
         </div>
 
         <div>
           <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] opacity-60">
-            Browse
+            {t("Browse")}
           </h2>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link to="/vehicles" className="opacity-85 hover:text-primary">
-                All Products
+                {t("All Products")}
               </Link>
             </li>
             <li>
               <Link to="/vehicles" search={{ category: "scooter" }} className="opacity-85 hover:text-primary">
-                Scooters
+                {t("Scooters")}
               </Link>
             </li>
             <li>
@@ -32,27 +34,27 @@ export function SiteFooter() {
                 search={{ category: "motorcycle" }}
                 className="opacity-85 hover:text-primary"
               >
-                Motorcycles
+                {t("Motorcycles")}
               </Link>
             </li>
             <li>
               <Link to="/products/ev" className="opacity-85 hover:text-primary">
-                EV
+                {t("EV")}
               </Link>
             </li>
             <li>
               <Link to="/products/accessories" className="opacity-85 hover:text-primary">
-                Accessories
+                {t("Accessories")}
               </Link>
             </li>
             <li>
               <Link to="/products/lubes" className="opacity-85 hover:text-primary">
-                Lubes & Chemicals
+                {t("Lubes & Chemicals")}
               </Link>
             </li>
             <li>
               <Link to="/offers" className="opacity-85 hover:text-primary">
-                Current Offers
+                {t("Current Offers")}
               </Link>
             </li>
           </ul>
@@ -60,34 +62,34 @@ export function SiteFooter() {
 
         <div>
           <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] opacity-60">
-            Showroom
+            {t("Showroom")}
           </h2>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
               <Link to="/about" className="opacity-85 hover:text-primary">
-                About Us
+                {t("About Us")}
               </Link>
             </li>
             <li>
               <Link to="/contact" className="opacity-85 hover:text-primary">
-                Contact & Enquiry
+                {t("Contact & Enquiry")}
               </Link>
             </li>
             <li>
               <Link to="/resources/video-gallery" className="opacity-85 hover:text-primary">
-                Video Gallery
+                {t("Video Gallery")}
               </Link>
             </li>
             <li>
               <Link to="/admin" className="opacity-60 hover:text-primary">
-                Staff Login
+                {t("Staff Login")}
               </Link>
             </li>
           </ul>
           <div className="mt-5 space-y-1 text-sm opacity-75">
             {SHOWROOM.hours.map((h) => (
               <p key={h.days}>
-                {h.days}: {h.time}
+                {t(h.days)}: {t(h.time)}
               </p>
             ))}
           </div>
@@ -95,7 +97,7 @@ export function SiteFooter() {
 
         <div>
           <h2 className="font-display text-sm font-bold uppercase tracking-[0.16em] opacity-60">
-            Reach Us
+            {t("Reach Us")}
           </h2>
           <ul className="mt-4 space-y-3 text-sm">
             <li className="flex gap-3">
@@ -103,7 +105,7 @@ export function SiteFooter() {
               <address className="not-italic opacity-85">
                 {SHOWROOM.addressLines.map((line) => (
                   <span key={line} className="block">
-                    {line}
+                    {t(line)}
                   </span>
                 ))}
               </address>
@@ -112,7 +114,7 @@ export function SiteFooter() {
               <li key={c.label} className="flex gap-3">
                 <Phone className="size-4 shrink-0 text-primary" />
                 <a href={`tel:${c.tel}`} className="opacity-85 hover:text-primary">
-                  {c.label}: {c.display}
+                  {t(c.label)}: {c.display}
                 </a>
               </li>
             ))}
@@ -124,13 +126,13 @@ export function SiteFooter() {
                 rel="noreferrer"
                 className="opacity-85 hover:text-primary"
               >
-                WhatsApp us
+                {t("WhatsApp us")}
               </a>
             </li>
             <li className="flex gap-3">
               <MapPin className="size-4 shrink-0 text-primary" />
               <a href={SHOWROOM.mapUrl} target="_blank" rel="noreferrer" className="opacity-85 hover:text-primary">
-                Open in Google Maps
+                {t("Open in Google Maps")}
               </a>
             </li>
             <li className="flex gap-3">
@@ -152,9 +154,9 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="container-page flex flex-col gap-2 py-5 text-xs opacity-60 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {new Date().getFullYear()} {SHOWROOM.name}. All rights reserved.
+            © {new Date().getFullYear()} {t(SHOWROOM.name)}. {t("All rights reserved.")}
           </p>
-          <p>Honda is a trademark of Honda Motor Co., Ltd.</p>
+          <p>{t("Honda is a trademark of Honda Motor Co., Ltd.")}</p>
         </div>
       </div>
     </footer>

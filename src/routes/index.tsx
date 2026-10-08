@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useI18n } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, BadgePercent, MapPin, Phone, ShieldCheck, Star, Wrench } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -29,6 +30,7 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const { t } = useI18n();
   const vehicles = useQuery(vehiclesQuery);
   const offers = useQuery(offersQuery);
 
@@ -44,38 +46,38 @@ function HomePage() {
         <section className="relative isolate overflow-hidden bg-ink text-ink-foreground">
           <img
             src="/images/showroom/storefront.jpg"
-            alt="Laxmi Motors authorised Honda showroom front view"
+            alt={t("Laxmi Motors authorised Honda showroom front view")}
             width={1672}
             height={941}
             className="absolute inset-0 h-full w-full object-cover object-center opacity-70"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/20" />
           <div className="container-page relative flex min-h-[78vh] flex-col justify-center py-20">
-            <p className="eyebrow">{SHOWROOM.tagline}</p>
+            <p className="eyebrow">{t(SHOWROOM.tagline)}</p>
             <h1 className="mt-4 max-w-2xl font-display text-5xl font-bold uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-              Find your perfect Honda two-wheeler
+              {t("Find your perfect Honda two-wheeler")}
             </h1>
             <p className="mt-5 max-w-xl text-base opacity-85 sm:text-lg">
-              {SHOWROOM.shortDescription}
+              {t(SHOWROOM.shortDescription)}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <Link to="/vehicles">
-                  Explore Vehicles <ArrowRight />
+                  {t("Explore Vehicles")} <ArrowRight />
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline" className="border-white/40 bg-transparent text-ink-foreground hover:bg-white/10 hover:text-ink-foreground">
-                <Link to="/contact">Contact Us</Link>
+                <Link to="/contact">{t("Contact Us")}</Link>
               </Button>
             </div>
             <dl className="mt-14 grid max-w-2xl grid-cols-2 gap-6 border-t border-white/15 pt-8 sm:grid-cols-4">
               {SHOWROOM.stats.map((stat) => (
-                <div key={stat.label}>
-                  <dt className="sr-only">{stat.label}</dt>
+                <div key={t(stat.label)}>
+                  <dt className="sr-only">{t(stat.label)}</dt>
                   <dd>
-                    <span className="block font-display text-3xl font-bold">{stat.value}</span>
+                    <span className="block font-display text-3xl font-bold">{t(stat.value)}</span>
                     <span className="mt-1 block text-xs uppercase tracking-[0.12em] opacity-70">
-                      {stat.label}
+                      {t(stat.label)}
                     </span>
                   </dd>
                 </div>
@@ -92,7 +94,7 @@ function HomePage() {
             action={
               <Button asChild variant="outline">
                 <Link to="/vehicles">
-                  View all vehicles <ArrowRight />
+                  {t("View all vehicles")} <ArrowRight />
                 </Link>
               </Button>
             }
@@ -104,7 +106,7 @@ function HomePage() {
               ))}
             {vehicles.isError && (
               <p className="text-sm text-destructive">
-                Could not load vehicles right now. Please refresh the page.
+                {t("Could not load vehicles right now. Please refresh the page.")}
               </p>
             )}
             {featured.map((vehicle) => (
@@ -127,7 +129,7 @@ function HomePage() {
                 >
                   <img
                     src={category.image}
-                    alt={`Honda ${category.label.toLowerCase()} at the showroom`}
+                    alt={t("Honda {label} at the showroom", { label: t(category.label).toLowerCase() })}
                     loading="lazy"
                     width={1200}
                     height={900}
@@ -136,11 +138,11 @@ function HomePage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent" />
                   <div className="relative flex min-h-64 flex-col justify-end p-7">
                     <h3 className="font-display text-3xl font-bold uppercase tracking-wide">
-                      {category.label}
+                      {t(category.label)}
                     </h3>
-                    <p className="mt-2 max-w-sm text-sm opacity-80">{category.description}</p>
+                    <p className="mt-2 max-w-sm text-sm opacity-80">{t(category.description)}</p>
                     <span className="mt-4 inline-flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-wide text-primary">
-                      Browse {category.label} <ArrowRight className="size-4" />
+                      {t("Browse {label}", { label: t(category.label) })} <ArrowRight className="size-4" />
                     </span>
                   </div>
                 </Link>
@@ -157,7 +159,7 @@ function HomePage() {
             action={
               <Button asChild variant="outline">
                 <Link to="/offers">
-                  All offers <ArrowRight />
+                  {t("All offers")} <ArrowRight />
                 </Link>
               </Button>
             }
@@ -180,7 +182,7 @@ function HomePage() {
             ))}
             {!offers.isLoading && activeOffers.length === 0 && (
               <p className="text-sm text-muted-foreground">
-                No offers are running right now. Please check back soon.
+                {t("No offers are running right now. Please check back soon.")}
               </p>
             )}
           </div>
@@ -192,14 +194,14 @@ function HomePage() {
             <SectionHead eyebrow="Why choose us" title="A dealership that stays with you" />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {SHOWROOM.whyChooseUs.map((item, index) => (
-                <div key={item.title} className="rounded-xl border border-border bg-card p-6">
+                <div key={t(item.title)} className="rounded-xl border border-border bg-card p-6">
                   <span className="flex size-10 items-center justify-center rounded-lg bg-accent text-accent-foreground">
                     {[<ShieldCheck key="a" className="size-5" />, <Star key="b" className="size-5" />, <Wrench key="c" className="size-5" />][index % 3]}
                   </span>
                   <h3 className="mt-4 font-display text-xl font-bold uppercase tracking-wide">
-                    {item.title}
+                    {t(item.title)}
                   </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{t(item.description)}</p>
                 </div>
               ))}
             </div>
@@ -210,27 +212,27 @@ function HomePage() {
         <section className="container-page grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-2">
           <img
             src="/images/showroom/storefront.jpg"
-            alt={`${SHOWROOM.name} showroom front view`}
+            alt={t("{name} showroom front view", { name: t(SHOWROOM.name) })}
             loading="lazy"
             width={1672}
             height={941}
             className="rounded-2xl object-cover shadow-card"
           />
           <div>
-            <p className="eyebrow">About the showroom</p>
+            <p className="eyebrow">{t("About the showroom")}</p>
             <h2 className="mt-3 font-display text-4xl font-bold uppercase leading-tight tracking-tight">
-              {SHOWROOM.name}, your Honda two-wheeler showroom in Lanja
+              {t("{name}, your Honda two-wheeler showroom in Lanja", { name: t(SHOWROOM.name) })}
             </h2>
-            <p className="mt-4 text-muted-foreground">{SHOWROOM.about.intro}</p>
+            <p className="mt-4 text-muted-foreground">{t(SHOWROOM.about.intro)}</p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild>
                 <Link to="/about">
-                  About our showroom <ArrowRight />
+                  {t("About our showroom")} <ArrowRight />
                 </Link>
               </Button>
               <Button asChild variant="outline">
                 <Link to="/contact">
-                  <MapPin /> Find us
+                  <MapPin /> {t("Find us")}
                 </Link>
               </Button>
             </div>
@@ -242,17 +244,17 @@ function HomePage() {
           <div className="container-page flex flex-col items-start gap-6 py-14 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="font-display text-4xl font-bold uppercase leading-tight tracking-tight">
-                Ready for a test ride?
+                {t("Ready for a test ride?")}
               </h2>
               <p className="mt-2 max-w-xl opacity-90">
-                Call or message us and we will keep the model you like ready at the showroom.
+                {t("Call or message us and we will keep the model you like ready at the showroom.")}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               {SHOWROOM.contacts.map((c) => (
                 <Button key={c.label} asChild size="lg" variant="secondary">
                   <a href={`tel:${c.tel}`}>
-                    <Phone /> {c.label}: {c.display}
+                    <Phone /> {t(c.label)}: {c.display}
                   </a>
                 </Button>
               ))}
@@ -262,7 +264,7 @@ function HomePage() {
                 variant="outline"
                 className="border-white/50 bg-transparent text-primary-foreground hover:bg-white/15 hover:text-primary-foreground"
               >
-                <Link to="/contact">Send an enquiry</Link>
+                <Link to="/contact">{t("Send an enquiry")}</Link>
               </Button>
             </div>
           </div>
@@ -284,12 +286,13 @@ function SectionHead({
   title: string;
   action?: React.ReactNode;
 }) {
+  const { t } = useI18n();
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
       <div>
-        <p className="eyebrow">{eyebrow}</p>
+        <p className="eyebrow">{t(eyebrow)}</p>
         <h2 className="mt-2 max-w-xl font-display text-4xl font-bold uppercase leading-tight tracking-tight">
-          {title}
+          {t(title)}
         </h2>
       </div>
       {action}
